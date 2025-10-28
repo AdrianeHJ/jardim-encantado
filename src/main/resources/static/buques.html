@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buquês - Jardim Encantado</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <header class="header container">
+        <a href="index.html" class="logo">
+            <span><img src="/ProjetoPI/src/main/resources/images/LogoSemFundo.png" class="material-symbols-outlined logo-icon" alt="logo"></span>
+            Jardim Encantado
+        </a>
+        <nav class="main-nav">
+            <a href="buques.html" class="active">Buquês</a>
+            <a href="conjuntos.html">Conjuntos</a>
+            <a href="mudas.html">Mudas</a>
+            <a href="personalizados.html">Personalizados</a>
+        </nav>
+        <div class="header-icons">
+            <span id="user-icon" style="cursor: pointer;"><img src="/ProjetoPI/src/main/resources/images/Login.png" class="material-symbols-outlined" alt="perfil"></span>
+            <a href="carrinho.html"><span><img src="/ProjetoPI/src/main/resources/images/carrinho branco.png" class="material-symbols-outlined" alt="carrinho"></span></a>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="product-section">
+            <h2 class="product-section-title">Novidades</h2>
+            <div class="product-grid">
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/buque0.jpeg" alt="Buquê 1"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/buque1.jpeg" alt="Buquê 2"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/tulipa.jpg" alt="Buquê 3"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa2.jpeg" alt="Buquê 4"></div>
+            </div>
+        </section>
+
+        <section class="product-section">
+            <h2 class="product-section-title">Promoções</h2>
+            <div class="product-grid">
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa3.jpeg" alt="Buquê 5"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa4.jpeg" alt="Buquê 6"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa6.jpeg" alt="Buquê 7"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa7.jpeg" alt="Buquê 8"></div>
+            </div>
+        </section>
+
+        <section class="product-section">
+            <h2 class="product-section-title">Frete grátis</h2>
+            <div class="product-grid">
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa7.jpeg" alt="Buquê 9"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/tulipa.jpg" alt="Buquê 10"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/buque0.jpeg" alt="Buquê 11"></div>
+                <div class="product-card"><img src="/ProjetoPI/src/main/resources/images/img_flores/rosa1.jpeg" alt="Buquê 12"></div>
+            </div>
+        </section>
+    </main>
+
+    <!--login-->
+    <div id="auth-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="material-symbols-outlined modal-close"><img src="/ProjetoPI/src/main/resources/images/fechar.png"></span>
+
+        <div id="login-view" class="modal-view active">
+            <h3 class="auth-header">
+                <span class="material-symbols-outlined"></span>
+                Entre na sua conta
+            </h3>
+            <button class="social-btn">
+                <img src="/ProjetoPI/src/main/resources/images/facebook.png" alt="Facebook">
+                Entrar com Facebook
+            </button>
+            <button class="social-btn">
+                <img src="/ProjetoPI/src/main/resources/images/google.png" alt="Google">
+                Entrar com Google
+            </button>
+
+            <div class="auth-divider">ou se preferir</div>
+
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="E-mail">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Senha">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full-width">Entrar</button>
+            </form>
+            
+            <p class="auth-link">
+                <a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a>
+            </p>
+            <p class="auth-link" style="margin-top: 0.5rem;">
+                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
+            </p>
+        </div>
+
+        <div id="register-view" class="modal-view">
+            <h3 class="auth-header">
+                <span class="material-symbols-outlined"></span>
+                Crie sua conta
+            </h3>
+            <button class="social-btn">
+                <img src="/ProjetoPI/src/main/resources/images/facebook.png" alt="Facebook">
+                Criar com Facebook
+            </button>
+            <button class="social-btn">
+                <img src="/ProjetoPI/src/main/resources/images/google.png" alt="Google">
+                Criar com Google
+            </button>
+
+            <div class="auth-divider">ou se preferir</div>
+
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="E-mail">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="Nome Completo">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="tel" placeholder="Telefone/Whatsapp">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Senha">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                
+                <div class="auth-checkbox">
+                    <input type="checkbox" id="check-email">
+                    <label for="check-email">Desejo receber ofertas por e-mail</label>
+                </div>
+                <div class="auth-checkbox">
+                    <input type="checkbox" id="check-whatsapp">
+                    <label for="check-whatsapp">Desejo receber atualizações por whatsapp</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full-width">Criar conta</button>
+            </form>
+            
+            <p class="auth-link">
+                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
+            </p>
+        </div>
+
+        <div id="reset-view" class="modal-view">
+            <h3 class="auth-header" style="justify-content: center;">
+                Redefinir senha
+            </h3>
+
+            <p class="reset-intro">Enviaremos um e-mail para você com um senha provisória.</p>
+
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="E-mail">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full-width">Enviar</button>
+            </form>
+            
+            <p class="auth-link">
+                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
+            </p>
+            <p class="auth-link" style="margin-top: 0.5rem;">
+                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+<!--login-->
+    
+    <footer class="footer container">
+        <div class="footer-col">
+            <h3>Quem somos</h3>
+            <ul>
+                <li><a href="#">Nossa História</a></li>
+                <li><a href="#">Missão e compromisso</a></li>
+                <li><a href="#">Sustentabilidade</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Ajuda e suporte</h3>
+            <ul>
+                <li><a href="#">Fale Conosco</a></li>
+                <li><a href="#">Trocas e Garantia</a></li>
+                <li><a href="#">Perguntas Frequentes (FAQ)</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Redes Sociais</h3>
+            <ul class="social-links">
+                <li><a href="#"><span class="material-symbols-outlined"></span>Facebook</a></li>
+                <li><a href="#"><span class="material-symbols-outlined"></span>Instagram</a></li>
+                <li><a href="#"><span class="material-symbols-outlined"></span>TikTok</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
