@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buquê de Rosas Vermelhas - Jardim Encantado</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <header class="header container">
+        <a href="index.html" class="logo">
+            <span class="material-symbols-outlined logo-icon"><img src="" alt="logo"></span>
+            Jardim Encantado
+        </a>
+        <nav class="main-nav">
+            <a href="buques.html" class="active">Buquês</a>
+            <a href="conjuntos.html">Conjuntos</a>
+            <a href="mudas.html">Mudas</a>
+            <a href="personalizados.html">Personalizados</a>
+        </nav>
+        <div class="header-icons">
+            <!--imagem aqui-->
+            <span class="material-symbols-outlined" id="user-icon" style="cursor: pointer;"><img src="" alt="perfil"></span>
+            <!--imagem aqui-->
+            <a href="carrinho.html"><span class="material-symbols-outlined"><img src="" alt="carrinho"></span></a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-light-content">
+            <div class="product-detail-layout">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="" alt="Buquê de Rosas Vermelhas">
+                    </div>
+                    <div class="product-thumbnails">
+                        <img src="" alt="Thumbnail 1" class="active">
+                        <img src="" alt="Thumbnail 2">
+                        <img src="" alt="Thumbnail 3">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1>Buquê de Rosas Vermelhas</h1>
+                    <p class="description">
+                        Nada traduz sentimentos tão intensos quanto as rosas vermelhas, símbolo atemporal de paixão, romantismo e essência. Nosso buquê exclusivo é cuidadosamente montado com hastes frescas, flores selecionadas e folhagens nobres, garantindo beleza e sofisticação em cada detalhe.
+                    </p>
+                    <div class="price">R$ 109,00</div>
+                    <div class="free-shipping">Frete grátis na primeira compra</div>
+
+                    <div class="product-links">
+                        <a href="#">
+                            Mais detalhes sobre o produto
+                            <span class="material-symbols-outlined"></span>
+                        </a>
+                        <a href="#">
+                            Avaliações (4.6)
+                            <span class="material-symbols-outlined"></span>
+                        </a>
+                    </div>
+
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Adicionar ao carrinho</button>
+                        <button class="btn btn-secondary">Comprar agora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--login-->
+    <div id="auth-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="material-symbols-outlined modal-close">fechar</span>
+
+        <div id="login-view" class="modal-view active">
+            <h3 class="auth-header">
+                <span class="material-symbols-outlined"></span>
+                Entre na sua conta
+            </h3>
+            <button class="social-btn">
+                <img src="" alt="Facebook">
+                Entrar com Facebook
+            </button>
+            <button class="social-btn">
+                <img src="" alt="Google">
+                Entrar com Google
+            </button>
+
+            <div class="auth-divider">ou se preferir</div>
+
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="E-mail">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Senha">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full-width">Entrar</button>
+            </form>
+            
+            <p class="auth-link">
+                <a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a>
+            </p>
+            <p class="auth-link" style="margin-top: 0.5rem;">
+                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
+            </p>
+        </div>
+
+        <div id="register-view" class="modal-view">
+            <h3 class="auth-header">
+                <span class="material-symbols-outlined"></span>
+                Crie sua conta
+            </h3>
+            <button class="social-btn">
+                <img src="" alt="Facebook">
+                Criar com Facebook
+            </button>
+            <button class="social-btn">
+                <img src="" alt="Google">
+                Criar com Google
+            </button>
+
+            <div class="auth-divider">ou se preferir</div>
+
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="E-mail">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="Nome Completo">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="tel" placeholder="Telefone/Whatsapp">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Senha">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                
+                <div class="auth-checkbox">
+                    <input type="checkbox" id="check-email">
+                    <label for="check-email">Desejo receber ofertas por e-mail</label>
+                </div>
+                <div class="auth-checkbox">
+                    <input type="checkbox" id="check-whatsapp">
+                    <label for="check-whatsapp">Desejo receber atualizações por whatsapp</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full-width">Criar conta</button>
+            </form>
+            
+            <p class="auth-link">
+                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
+            </p>
+        </div>
+
+        <div id="reset-view" class="modal-view">
+            <h3 class="auth-header" style="justify-content: center;">
+                Redefinir senha
+            </h3>
+
+            <p class="reset-intro">Enviaremos um e-mail para você com um senha provisória.</p>
+
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="E-mail">
+                    <span class="material-symbols-outlined input-icon"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full-width">Enviar</button>
+            </form>
+            
+            <p class="auth-link">
+                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
+            </p>
+            <p class="auth-link" style="margin-top: 0.5rem;">
+                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+<!--login-->
+
+    <footer class="footer container">
+        <div class="footer-col">
+            <h3>Quem somos</h3>
+            <ul>
+                <li><a href="#">Nossa História</a></li>
+                <li><a href="#">Missão e compromisso</a></li>
+                <li><a href="#">Sustentabilidade</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Ajuda e suporte</h3>
+            <ul>
+                <li><a href="#">Fale Conosco</a></li>
+                <li><a href="#">Trocas e Garantia</a></li>
+                <li><a href="#">Perguntas Frequentes (FAQ)</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Redes Sociais</h3>
+            <ul class="social-links">
+                <li><a href="#"><span class="material-symbols-outlined"></span>Facebook</a></li>
+                <li><a href="#"><span class="material-symbols-outlined"></span>Instagram</a></li>
+                <li><a href="#"><span class="material-symbols-outlined"></span>TikTok</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
