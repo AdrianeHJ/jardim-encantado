@@ -1,13 +1,13 @@
-package PiFloricultura.ProjetoPI;
+package pi.jardim_encantado;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProjetoPiApplication {
+public class JardimEncantadoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjetoPiApplication.class, args);
+		SpringApplication.run(JardimEncantadoApplication.class, args);
 	}
 
 }
