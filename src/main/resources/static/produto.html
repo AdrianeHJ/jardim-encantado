@@ -9,23 +9,32 @@
 </head>
 <body>
 
-    <header class="header container">
-        <a href="index.html" class="logo">
-            <span><img src="/src/main/resources/images/LogoSemFundo.png" class="material-symbols-outlined logo-icon" alt="logo"></span>
-            Jardim Encantado
-        </a>
-        <nav class="main-nav">
-            <a href="buques.html" class="active">Buquês</a>
-            <a href="conjuntos.html">Conjuntos</a>
-            <a href="mudas.html">Mudas</a>
-            <a href="personalizados.html">Personalizados</a>
-        </nav>
-        <div class="header-icons">
-            <span id="user-icon" style="cursor: pointer;"><img src="/src/main/resources/images/Login.png" class="material-symbols-outlined" alt="perfil"></span>
-            <a href="carrinho.html"><span><img src="/src/main/resources/images/carrinho branco.png" class="material-symbols-outlined" alt="carrinho"></span></a>
+    <header class="novo-header-wrapper">
+        <div class="novo-header-top">
+            <div class="container">
+                <div class="header-linha-1">
+                    <a href="index.html" class="logo">
+                        <span><img src="/src/main/resources/images/LogoSemFundo.png" class="material-symbols-outlined logo-icon" alt="logo"></span>
+                        Jardim Encantado
+                    </a>
+                </div>
+                <div class="header-linha-2">
+                    <div class="header-icone-esquerda">
+                        <span id="user-icon" style="cursor: pointer;"><img src="/src/main/resources/images/Login.png" class="material-symbols-outlined" alt="perfil"></span>
+                    </div>
+                    <nav class="main-nav">
+                        <a href="buques.html" class="active">Buquês</a>
+                        <a href="conjuntos.html">Conjuntos</a>
+                        <a href="mudas.html">Mudas</a>
+                        <a href="personalizados.html">Personalizados</a>
+                    </nav>
+                    <div class="header-icone-direita">
+                        <a href="carrinho.html"><span><img src="/src/main/resources/images/carrinho branco.png" class="material-symbols-outlined" alt="carrinho"></span></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
-
     <main class="container">
         <div class="page-light-content">
             <div class="product-detail-layout">
@@ -69,7 +78,6 @@
         </div>
     </main>
 
-    <!--login-->
     <div id="auth-modal" class="modal-overlay">
     <div class="modal-content">
         <span class="material-symbols-outlined modal-close"><img src="/src/main/resources/images/fechar.png"></span>
@@ -186,9 +194,7 @@
 
     </div>
 </div>
-<!--login-->
-
-    <footer class="footer container">
+<footer class="footer container">
         <div class="footer-col">
             <h3>Quem somos</h3>
             <ul>

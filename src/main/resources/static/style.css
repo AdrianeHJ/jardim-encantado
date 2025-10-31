@@ -1003,6 +1003,116 @@ img {
     line-height: 1.5;
 }
 
+/* --- Estilos: Novo Cabeçalho Index --- */
+
+.novo-header-wrapper {
+
+}
+
+.novo-header-top {
+    background-color: 1E2724; 
+}
+
+.novo-header-bottom {
+    background-color: #2A2E2C;
+    padding: 1.25rem 0;
+}
+
+.novo-header-top .container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.novo-header-top .header-linha-1 {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+.novo-header-top .header-linha-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.novo-header-top .header-icone-esquerda .material-symbols-outlined,
+.novo-header-top .header-icone-direita .material-symbols-outlined {
+    width: 35px;
+    height: 35px;
+}
+
+
+.novo-header-top .header-icone-esquerda,
+.novo-header-top .header-icone-direita {
+    flex: 1;
+}
+
+.novo-header-top .header-icone-direita {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.novo-header-top .main-nav {
+    flex: 3;
+    justify-content: center;
+}
+
+.novo-header-bottom .container {
+    display: flex;
+    justify-content: center;
+}
+
+.novo-header-bottom .barra-pesquisa {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 20px;
+    border: none;
+    font-size: 1rem;
+    background-color: #cec8c8;
+    color: var(--cor-texto-dark);
+}
+.novo-header-bottom .barra-pesquisa::placeholder {
+    color: #000000;
+}
+
+/* --- Estilos: Barra de Pesquisa com Lupa --- */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; 
+}
+
+
+.novo-header-bottom .barra-pesquisa {
+    padding-right: 3.5rem;
+}
+
+.search-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 3.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 0 20px 20px 0; 
+}
+
+.search-button img {
+    width: 24px;
+    height: 24px;
+    opacity: 0.6;
+}
+
+.search-button:hover img {
+    opacity: 1;
+}
 /* --- Importações de Fontes e Ícones --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0');
