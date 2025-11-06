@@ -22,7 +22,7 @@ public class Produto {
     private String nome;
 
     @Column(length = 1000) // aumenta p tamanho padrão da coluna descrição 
-    private String descrição;
+    private String descricão;
 
     private int avaliacao;
     private float preco;
