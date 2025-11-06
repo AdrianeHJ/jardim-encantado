@@ -3,6 +3,9 @@ package pi.jardim_encantado.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,9 +13,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity // mostra que é uma tabela 
-@Data // crua getter,setter, toString etc
-@NoArgsConstructor // cria contrutor vazio
-@AllArgsConstructor // cria construtor com todos os campos
+@Data // gera getters e setters automaticamente
+@NoArgsConstructor // gera construtor vazio
+@AllArgsConstructor // gera construtor com todos os atributos
 
 public class Produto {
     @Id  // marca o campo id como chave primaira
@@ -22,10 +25,13 @@ public class Produto {
     private String nome;
 
     @Column(length = 1000) // aumenta p tamanho padrão da coluna descrição 
-    private String descricão;
+    private String descricao;
 
     private int avaliacao;
-    private float preco;
 
+    @Column(precision = 10, scale = 2) // scale = 2 (garante 2 casas decimais no banco)
+    private BigDecimal preco; // Era 'float', agora é 'BigDecimal'
+    
     private String imagemUrl;
+
 }

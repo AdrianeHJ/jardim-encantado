@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Jardim Encantado</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script src="/script.js" defer></script>
+</head>
+
+<body>
+
+    <header class="novo-header-wrapper">
+        <div class="novo-header-top">
+            <div class="container">
+                <div class="header-linha-1">
+                    <a href="/index.html" class="logo">
+                        <span><img src="/images/LogoSemFundo.png" class="material-symbols-outlined logo-icon"
+                                alt="logo"></span>
+                        Jardim Encantado
+                    </a>
+                </div>
+                <div class="header-linha-2">
+
+                    <div class="header-icone-esquerda">
+                        <a id="admin-logout-icon" style="cursor: pointer;" title="Sair do Modo Administrador">
+                            <img src="/images/sign_out.png" class="material-symbols-outlined" alt="Sair">
+                        </a>
+                    </div>
+
+                    <nav class="main-nav">
+                        <a href="/buques.html">Buquês</a>
+                        <a href="/conjuntos.html">Conjuntos</a>
+                        <a href="/mudas.html">Mudas</a>
+                        <a href="/personalizados.html">Personalizados</a>
+                    </nav>
+
+                    <div class="header-icone-direita">
+                        <a href="/carrinho.html"><span><img src="/images/carrinho branco.png"
+                                    class="material-symbols-outlined" alt="carrinho"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <h1 style="padding-top: 2rem; margin-top: 0; margin-bottom: 1rem;">Painel Administrativo</h1>
+
+        <section class="product-section">
+            <h2 class="product-section-title">Cadastrar Novo Produto</h2>
+
+            <form id="form-cadastro-produto" class="custom-form-page" style="max-width: none;">
+
+                <div class="input-group">
+                    <input type="text" id="produto-nome" placeholder="Nome do Produto" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="produto-descricao" placeholder="Descrição" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="produto-preco" placeholder="Preço (ex: 129,90)" inputmode="decimal" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="number" id="produto-avaliacao" placeholder="Avaliação (de 1 a 5)" max="5" min="1"
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="produto-imagemUrl"
+                        placeholder="URL da Imagem (ex: /images/img_flores/rosa1.jpeg)" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar Produto</button>
+
+                <div id="feedback-mensagem" style="margin-top: 1rem; font-size: 1.1rem;"></div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="footer container">
+    </footer>
+
+    <div id="auth-modal" class="modal-overlay">
+    </div>
+
+</body>
+
+</html>

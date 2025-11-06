@@ -1173,6 +1173,28 @@ img {
     font-weight: 700;
     color: var(--cor-verde-logo); /* Cor de destaque para o preço */
 }
+/* Estilo para o título do painel admin */
+.admin-title {
+    padding-top: 2rem; /* Espaçamento em cima do título */
+    margin-top: 0; /* Remove a margem padrão do h1 se houver */
+    color: white; /* Ou a cor que você preferir */
+}
+/*
+ * CORREÇÃO DA ÁREA DE CLIQUE DO ÍCONE ESQUERDO (LOGIN/SAIR)
+ *
+ * Nós dizemos ao container '.header-icone-esquerda' (que tem 'flex: 1' e é gigante)
+ * para se comportar como um container flex e alinhar seu conteúdo (o ícone)
+ * à esquerda (flex-start).
+ *
+ * Isso impede que o ícone clicável se estique para preencher o espaço.
+*/
+.novo-header-top .header-icone-esquerda {
+    /* (Linha nova) Ativa o 'flex' no container do ícone */
+    display: flex;
+    
+    /* (Linha nova) Alinha o ícone à esquerda (e impede que ele estique) */
+    justify-content: flex-start; 
+}
 /* --- Importações de Fontes e Ícones --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0');
