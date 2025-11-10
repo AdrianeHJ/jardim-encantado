@@ -1,62 +1,44 @@
-/* * Este é o "ouvinte" principal. 
- * Ele garante que todo o código JavaScript dentro dele só execute DEPOIS 
- * que o navegador terminou de carregar todo o HTML da página.
- * Isso evita erros de "elemento não encontrado" (null).
- */
+//Ele garante que todo o código JavaScript dentro dele só execute DEPOIS que o navegador terminou de carregar todo o HTML da página.Isso evita erros de "elemento não encontrado" (null).
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- CÓDIGO 1: LÓGICA DO MODAL (Seu código original, agora comentado) ---
-    
-    // 1.1. Busca o elemento principal do modal (a sobreposição escura)
-    //      e o armazena na variável 'modal'.
+    // --- CÓDIGO 1: LÓGICA DO MODAL 
+    // Busca o elemento principal do modal (a sobreposição escura)e o armazena na variável 'modal'.
     const modal = document.getElementById('auth-modal');
     
-    // 1.2. Busca o ícone de perfil (usuário) no header
-    //      e o armazena na variável 'userIcon'. É ele que ABRE o modal.
+    // Busca o ícone de perfil (usuário) no header e o armazena na variável 'userIcon'. É ele que ABRE o modal.
     const userIcon = document.getElementById('user-icon');
     
-    // 1.3. Busca TODOS os elementos que têm a classe '.modal-view'.
-    //      Isso cria uma lista (NodeList) contendo as 3 telas:
-    //      [div#login-view, div#register-view, div#reset-view]
+    //  Busca TODOS os elementos que têm a classe '.modal-view'. Isso cria uma lista (NodeList) contendo as 3 telas: [div#login-view, div#register-view, div#reset-view]
     const allViews = document.querySelectorAll('.modal-view');
     
-    // 1.4. Busca TODOS os links que têm o atributo 'data-view'.
-    //      São os links "Esqueceu a senha?", "Crie sua conta." etc.
-    //      Eles são responsáveis por TROCAR de tela dentro do modal.
+    //   Busca TODOS os links que têm o atributo 'data-view'. São os links "Esqueceu a senha?", "Crie sua conta." etc. Eles são responsáveis por TROCAR de tela dentro do modal.
     const viewLinks = document.querySelectorAll('[data-view]');
     
-    // 1.5. Busca o botão "X" (fechar) de dentro do modal.
+    //  Busca o botão "X" (fechar) de dentro do modal.
     const closeBtn = document.querySelector('.modal-close');
 
-    /**
-     * 1.6. Define uma FUNÇÃO chamada 'showView'.
-     * Esta função é reutilizável e sua tarefa é:
-     * Esconder TODAS as telas e mostrar APENAS a tela
-     * com o ID que foi passado (ex: 'login-view').
-     * @param {string} viewId - O ID da tela que deve ser mostrada (ex: "login-view").
-     */
+ 
+     // Define uma FUNÇÃO chamada 'showView'. Esta função é reutilizável e sua tarefa é: Esconder TODAS as telas e mostrar APENAS a tela com o ID que foi passado (ex: 'login-view'). @param {string} viewId - O ID da tela que deve ser mostrada (ex: "login-view").
     function showView(viewId) {
-        // 1.7. Primeiro, verifica se a lista de telas não está vazia.
+        // Primeiro, verifica se a lista de telas não está vazia.
         if (allViews && allViews.length > 0) {
-            // 1.8. Faz um loop (forEach) por CADA tela na lista 'allViews'.
+            //  Faz um loop (forEach) por CADA tela na lista 'allViews'.
             allViews.forEach(view => {
-                // 1.9. Remove a classe 'active' de TODAS as telas.
-                //      No seu CSS, 
-                //      a classe 'active' é o que torna a tela visível (display: block).
+                //  Remove a classe 'active' de TODAS as telas. No seu CSS, a classe 'active' é o que torna a tela visível (display: block).
                 view.classList.remove('active');
             });
         }
         
-        // 1.10. Agora, busca a tela específica que queremos mostrar 
+        // Agora, busca a tela específica que queremos mostrar 
         //       (ex: document.getElementById('login-view')).
         const activeView = document.getElementById(viewId);
         
-        // 1.11. Se (if) a tela foi encontrada...
+        //  Se (if) a tela foi encontrada...
         if (activeView) {
-            // 1.12. ...adiciona a classe 'active' nela, tornando-a visível.
+            // ...adiciona a classe 'active' nela, tornando-a visível.
             activeView.classList.add('active');
         } else {
-            // 1.13. (Segurança) Se um ID errado foi passado, avisa no console (F12).
+            // (Segurança) Se um ID errado foi passado, avisa no console (F12).
             console.error('Erro: View do modal com id "' + viewId + '" não foi encontrada.');
         }
     }
@@ -236,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             // 2.15. Envia os dados para a API (O 'fetch' faz a chamada POST)
+            //SQL -> Objeto JavaScript -> JSON -> Objeto Java -> SQL
             fetch('/api/produtos', { // A URL do nosso ProdutoController
                 method: 'POST', // O tipo de requisição (Criar)
                 headers: { 'Content-Type': 'application/json' }, // Avisa que o corpo é JSON
@@ -293,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * 'await' pausa a função até que a operação (como o fetch) termine.
  */
 async function carregarProdutos(gridElement) {
-    
+    //SQL -> Objeto Java -> JSON -> Objeto JavaScript
     // 'try...catch' é um bloco de segurança.
     // Se qualquer coisa dentro do 'try' falhar (ex: API offline),
     // o código pula direto para o 'catch' (bloco de erro) sem quebrar o site.
