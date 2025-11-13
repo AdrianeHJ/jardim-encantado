@@ -1,52 +1,70 @@
 package pi.jardim_encantado.controller;
 
+// Importações (Note as mudanças!)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import pi.jardim_encantado.model.Produto;
-import pi.jardim_encantado.repository.ProdutoRepository;
-
+// import pi.jardim_encantado.repository.ProdutoRepository; // <-- NÃO PRECISAMOS MAIS DISSO
+import pi.jardim_encantado.service.ProdutoService; // <-- IMPORTAMOS O SERVICE
 import java.util.List;
 
-@RestController // Diz ao Spring que esta classe é um "atendente" de API, ou seja, pode receber metodos http get,post e responde com json
-@RequestMapping("/api/produtos") // Todos os pedidos para esta classe começarão com "/api/produtos"
+// @RestController: Continua sendo um "atendente" de API REST (Garçom).
+@RestController
+// @RequestMapping: A "praça" (URL base) que este garçom atende.
+@RequestMapping("/api/produtos")
 public class ProdutoController {
 
-    //"Injeção de Dependência". Ele diz: "Spring, por favor, encontre o 'operário' (ProdutoRepository) que eu criei e conecte-o (injete-o) nesta variável".
+    // --- REMOVIDO ---
+    // @Autowired
+    // private ProdutoRepository produtoRepository; // O Garçom NÃO fala mais com o Estoque.
+    // --- FIM DO REMOVIDO ---
+
+    // @Autowired: Injeção de Dependência.
+    // O Garçom (Controller) agora está conectado ao Chefe de Cozinha (Service).
     @Autowired
-    private ProdutoRepository produtoRepository;
-    //Endpoint para CRIAR (Create) um novo produto. URL: POST /api/produtos. O frontend enviará um JSON do produto no corpo do pedido.
+    private ProdutoService produtoService;
 
-    @PostMapping //Diz ao Spring que este método deve "ouvir" pedidos do tipo POST.
-    public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) { 
-        // public ResponseEntity<Produto>: Informa que a resposta conterá um objeto 'Produto' (o produto que foi salvo).
-        // @RequestBody Produto produto: diz: "Pegue o JSON que veio no corpo (Body) do pedido e tente convertê-lo automaticamente em um objeto 'Produto'".
-
-        Produto novoProduto = produtoRepository.save(produto);
-        // Dá a ordem para o "operário" (produtoRepository) pegar o objeto 'produto' (que veio do frontend) e salvá-lo no banco de dados.
-
+    /**
+     * Endpoint para CRIAR (Create) um novo produto.
+     * URL: POST /api/produtos
+     * O frontend enviará um JSON do produto no corpo do pedido.
+     */
+    @PostMapping
+    public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
+        // O Garçom (Controller) não "salva" mais.
+        // Ele entrega o pedido (o 'produto') para o Chefe (Service) executar.
+        Produto novoProduto = produtoService.criarProduto(produto);
+        
+        // E então ele entrega a resposta de volta ao cliente (frontend).
         return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
-        // Retorna o produto salvo (com o novo ID) e um status "201 Created"
     }
 
-    
-    //Endpoint para LER (Read) todos os produtos. URL: GET /api/produtos. O frontend fará um pedido para obter a lista completa de produtos.
-    @GetMapping // Diz ao Spring que este método deve "ouvir" pedidos do tipo GET. Ele também ouve o caminho base: GET para "/api/produtos".
-
+    /**
+     * Endpoint para LER (Read) todos os produtos.
+     * URL: GET /api/produtos
+     */
+    @GetMapping
     public ResponseEntity<List<Produto>> listarProdutos() {
-        // public ResponseEntity<List<Produto>>: Informa que a resposta será uma lista (List) de objetos 'Produto'.
-
+        // O Garçom (Controller) pede ao Chefe (Service) a lista de produtos.
+        List<Produto> produtos = produtoService.listarTodos();
         
-        List<Produto> produtos = produtoRepository.findAll();
-        // Dá a ordem para o "operário" (produtoRepository) ir ao banco e buscar TODOS (findAll) os produtos cadastrados.
-        
+        // E entrega a lista ao cliente (frontend).
         return new ResponseEntity<>(produtos, HttpStatus.OK);
-        // Cria a resposta HTTP.
-        //     Argumento 1: 'produtos' -> A lista completa de produtos é colocada no corpo da resposta.
-        //     Argumento 2: 'HttpStatus.OK' -> Define o status como "200 OK",
-        //     que significa "Aqui está o que você pediu".
     }
 
+    /**
+     * Endpoint para LER (Read) UM produto pelo ID.
+     * URL: GET /api/produtos/1 (ou /2, /3, etc.)
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Produto> getProdutoPorId(@PathVariable Integer id) {
+        // O Garçom (Controller) pede ao Chefe (Service) para buscar um produto.
+        // A lógica de como buscar (o .map/.orElse) agora é feita aqui,
+        // mas a busca em si (o findById) é feita pelo Service.
+        return produtoService.getProdutoPorId(id)
+            .map(produto -> new ResponseEntity<>(produto, HttpStatus.OK)) // Se o Chefe achou
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)); // Se o Chefe não achou
+    }
 }

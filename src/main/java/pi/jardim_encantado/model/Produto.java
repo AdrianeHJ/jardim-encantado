@@ -19,7 +19,7 @@ import jakarta.persistence.Id;
 
 public class Produto {
     @Id  // marca o campo id como chave primaira
-    @GeneratedValue(strategy = GenerationType.AUTO) // banco gerara esse valor automaticamente
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // banco gerara esse valor automaticamente
     private int id;
 
     private String nome;
