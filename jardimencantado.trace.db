@@ -2139,3 +2139,6 @@ insert into produto (avaliacao,descricao,imagem_url,nome,preco,id) values (?,?,?
 2025-11-13 14:39:28.153175-03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUTO" not found (this database is empty); SQL statement:
 insert into produto (avaliacao,descricao,imagem_url,nome,preco,id) values (?,?,?,?,?,default) [42104-232]
+2025-11-13 17:19:11.682398-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USUARIOS" not found; SQL statement:
+select * from usuarios [42102-232]

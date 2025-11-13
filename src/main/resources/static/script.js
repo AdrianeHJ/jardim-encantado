@@ -130,15 +130,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 2. Se o ícone existir (ou seja, se estamos na página admin.html)
     if (adminLogoutIcon) {
-        // 3. Adiciona um ouvinte de clique
-        adminLogoutIcon.addEventListener('click', function () {
-            // 4. Pergunta ao usuário se ele realmente quer sair
-            if (confirm("Deseja sair do painel administrativo e voltar para a página inicial?")) {
-                // 5. Se sim, redireciona para a página inicial
-                window.location.href = '/index.html';
-            }
-        });
-    }
+    // 3. Adiciona um ouvinte de clique
+    adminLogoutIcon.addEventListener('click', function () {
+        // 4. Pergunta ao usuário se ele realmente quer sair
+        if (confirm("Deseja sair do painel administrativo e voltar para a página inicial?")) {
+            // 5. Se sim, limpa o login e redireciona
+            localStorage.removeItem('adminLogado'); // <-- ADICIONE ESTA LINHA
+            window.location.href = '/index.html'; 
+        }
+    });
+}
     // --- FIM DO NOVO CÓDIGO DO LOGOUT DO ADMIN ---
     // --- FIM DO CÓDIGO DO MODAL ---
 
@@ -264,17 +265,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // (Coloque isso dentro do 'DOMContentLoaded', junto com os outros códigos)
 
     // --- CÓDIGO 4: LÓGICA DE LOGIN (ADMIN E USUÁRIO) ---
-    
+
     // 4.1. Tenta encontrar o formulário de login
     const loginForm = document.querySelector('#login-view form');
 
     if (loginForm) {
         // 4.2. Adiciona um "ouvinte" ao envio do formulário
         // (Usamos 'async' para poder usar 'await')
-        loginForm.addEventListener('submit', async function(event) {
-            
+        loginForm.addEventListener('submit', async function (event) {
+
             // 4.3. Previne o recarregamento da página
-            event.preventDefault(); 
+            event.preventDefault();
 
             // 4.4. Pega os valores dos campos
             const emailInput = loginForm.querySelector('input[type="email"]');
@@ -294,7 +295,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 if (adminResponse.ok) {
-                    // 4.5. SUCESSO COMO ADMIN! Redireciona para a página admin
+                    // 4.5. SUCESSO COMO ADMIN! Salva o estado e redireciona
+                    localStorage.setItem('adminLogado', 'true'); // <-- ADICIONE ESTA LINHA
                     alert('Login de admin bem-sucedido!');
                     window.location.href = '/admin.html';
                     return; // Encerra a função aqui
@@ -314,18 +316,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 4.7. SUCESSO COMO USUÁRIO!
                     const usuarioLogado = await userResponse.json();
                     alert('Login bem-sucedido! Bem-vindo(a), ' + usuarioLogado.nome + '!');
-                    
+                    // Salva o nome do usuário no "cache" do navegador
+                    localStorage.setItem('usuarioLogado', usuarioLogado.nome);
+                    // Recarrega a página para mostrar o novo header
+                    window.location.reload();
                     // Fecha o modal de login
                     // A função closeModal já existe no "CÓDIGO 1"
-                    closeModal(); 
+                    closeModal();
                     // (Aqui poderíamos salvar o usuário no localStorage, etc.,
                     // mas por enquanto, só fechamos o modal)
-                    
+
                 } else {
                     // 4.8. FALHA NAS DUAS TENTATIVAS!
                     // Pega a mensagem de erro (ex: "Senha incorreta.")
                     const mensagemErro = await userResponse.text();
-                    alert('Falha no login: '+ mensagemErro);
+                    alert('Falha no login: ' + mensagemErro);
                 }
 
             } catch (error) {
@@ -338,77 +343,77 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- FIM DO CÓDIGO 4 (ATUALIZADO) ---
     // --- CÓDIGO 5: LÓGICA DA PÁGINA DE PRODUTO ESPECÍFICO ---
 
-// 5.1. Tenta encontrar um elemento que só existe na página de produto
-const layoutProduto = document.querySelector('.product-detail-layout');
+    // 5.1. Tenta encontrar um elemento que só existe na página de produto
+    const layoutProduto = document.querySelector('.product-detail-layout');
 
-// 5.2. Se ele achou (ou seja, se estamos na produto.html)...
-if (layoutProduto) {
-    // 5.3. ...chama a função para carregar o produto
-    carregarProdutoEspecifico(layoutProduto);
-}
-
-
-async function carregarProdutoEspecifico(layout) {
-    try {
-        // 5.4. Pega o ID da URL (ex: ?id=3)
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-
-        if (!id) {
-            layout.innerHTML = "<h1>Produto não encontrado (ID não fornecido).</h1>";
-            return;
-        }
-
-        // 5.5. Busca o produto na API (ex: /api/produtos/3)
-        const response = await fetch(`/api/produtos/${id}`);
-
-        if (!response.ok) {
-            throw new Error('Produto não encontrado ou erro no servidor.');
-        }
-
-        const produto = await response.json();
-
-        // 5.6. Preenche o HTML estático com os dados do produto
-
-        // Pega os elementos do HTML estático
-        const titulo = layout.querySelector('h1');
-        const descricao = layout.querySelector('p.description');
-        const preco = layout.querySelector('.price');
-        const imagemPrincipal = layout.querySelector('.main-image img');
-
-        // (Função 'formatarPreco' já existe no script)
-
-        // Preenche os elementos
-        document.title = produto.nome + " - Jardim Encantado"; // Atualiza o título da aba
-        titulo.textContent = produto.nome;
-        descricao.textContent = produto.descricao;
-        preco.textContent = formatarPreco(produto.preco);
-        imagemPrincipal.src = produto.imagemUrl;
-        imagemPrincipal.alt = produto.nome;
-
-        // (As miniaturas (thumbnails) ainda ficarão estáticas por enquanto)
-
-    } catch (error) {
-        console.error("Erro ao carregar produto:", error);
-        layout.innerHTML = `<h1 style='color: red;'>Erro ao carregar produto.</h1><p>${error.message}</p>`;
+    // 5.2. Se ele achou (ou seja, se estamos na produto.html)...
+    if (layoutProduto) {
+        // 5.3. ...chama a função para carregar o produto
+        carregarProdutoEspecifico(layoutProduto);
     }
-}
-// --- FIM DO CÓDIGO 5 ---
-// --- CÓDIGO 6: LÓGICA DE REGISTRO DE USUÁRIO ---
-    
+
+
+    async function carregarProdutoEspecifico(layout) {
+        try {
+            // 5.4. Pega o ID da URL (ex: ?id=3)
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            if (!id) {
+                layout.innerHTML = "<h1>Produto não encontrado (ID não fornecido).</h1>";
+                return;
+            }
+
+            // 5.5. Busca o produto na API (ex: /api/produtos/3)
+            const response = await fetch(`/api/produtos/${id}`);
+
+            if (!response.ok) {
+                throw new Error('Produto não encontrado ou erro no servidor.');
+            }
+
+            const produto = await response.json();
+
+            // 5.6. Preenche o HTML estático com os dados do produto
+
+            // Pega os elementos do HTML estático
+            const titulo = layout.querySelector('h1');
+            const descricao = layout.querySelector('p.description');
+            const preco = layout.querySelector('.price');
+            const imagemPrincipal = layout.querySelector('.main-image img');
+
+            // (Função 'formatarPreco' já existe no script)
+
+            // Preenche os elementos
+            document.title = produto.nome + " - Jardim Encantado"; // Atualiza o título da aba
+            titulo.textContent = produto.nome;
+            descricao.textContent = produto.descricao;
+            preco.textContent = formatarPreco(produto.preco);
+            imagemPrincipal.src = produto.imagemUrl;
+            imagemPrincipal.alt = produto.nome;
+
+            // (As miniaturas (thumbnails) ainda ficarão estáticas por enquanto)
+
+        } catch (error) {
+            console.error("Erro ao carregar produto:", error);
+            layout.innerHTML = `<h1 style='color: red;'>Erro ao carregar produto.</h1><p>${error.message}</p>`;
+        }
+    }
+    // --- FIM DO CÓDIGO 5 ---
+    // --- CÓDIGO 6: LÓGICA DE REGISTRO DE USUÁRIO ---
+
     // 6.1. Encontra o formulário de registro (o da "view" de registro)
     // (Este seletor busca o <form> dentro da <div> com id="register-view")
     const registerForm = document.querySelector('#register-view form');
 
     // 6.2. Se o formulário de registro existir nesta página...
     if (registerForm) {
-        
+
         // 6.3. Adiciona um "ouvinte" ao evento de 'submit' (clique no botão "Criar conta")
         // Usamos 'async' aqui para poder usar 'await' no fetch
-        registerForm.addEventListener('submit', async function(event) {
-            
+        registerForm.addEventListener('submit', async function (event) {
+
             // 6.4. Previne o comportamento padrão do HTML (que é recarregar a página)
-            event.preventDefault(); 
+            event.preventDefault();
 
             // 6.5. Pega os valores dos campos de dentro do formulário de registro
             // (Usamos 'registerForm.querySelector' para garantir que pegamos os inputs
@@ -441,13 +446,13 @@ async function carregarProdutoEspecifico(layout) {
                 if (response.ok) {
                     // 6.8. SUCESSO! O backend retornou status 201 (CREATED)
                     const usuarioSalvo = await response.json(); // Pega o usuário salvo
-                    
+
                     alert('Conta criada com sucesso para ' + usuarioSalvo.nome + '! Faça o login agora.');
-                    
+
                     // Como a conta foi criada, trocamos o modal para a tela de login
                     // A função showView já existe no seu "CÓDIGO 1"
-                    showView('login-view'); 
-                    
+                    showView('login-view');
+
                 } else {
                     // 6.9. ERRO! O backend retornou status 400 (ex: "Email já existe")
                     const mensagemErro = await response.text(); // Pega a mensagem de erro
@@ -461,6 +466,54 @@ async function carregarProdutoEspecifico(layout) {
         });
     }
     // --- FIM DO CÓDIGO 6 ---
+    // --- CÓDIGO 7: VERIFICA LOGIN PERSISTENTE ---
+    const nomeUsuario = localStorage.getItem('usuarioLogado');
+    if (nomeUsuario) {
+        // Se achou um nome, vamos mudar o header
+        const iconeLogin = document.getElementById('user-icon');
+        const iconeEsquerda = iconeLogin.parentElement; // Pega o <div> "pai"
+
+        // Esconde o ícone de login
+        iconeLogin.style.display = 'none';
+
+        // Cria e mostra a mensagem de "Bem-vindo" e o botão "Sair"
+        iconeEsquerda.innerHTML += `
+        <div class="user-info" style="color: white; display: flex; align-items: center; gap: 1rem;">
+            <span>Olá, ${nomeUsuario}</span>
+            <a id="logout-btn" style="cursor: pointer; color: #f0f0f0; text-decoration: underline;">Sair</a>
+        </div>
+    `;
+    }
+
+    // Adiciona o evento de clique no botão "Sair" que acabamos de criar
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function () {
+            if (confirm('Deseja realmente sair?')) {
+                localStorage.removeItem('usuarioLogado'); // Limpa o cache
+                window.location.reload(); // Recarrega a página
+            }
+        });
+    }
+    // --- FIM DO CÓDIGO 7 ---
+    // --- CÓDIGO 8: "SEGURANÇA" DA PÁGINA ADMIN ---
+    
+    // 8.1. Tenta encontrar o formulário de cadastro de produto
+    // (Isso nos diz se estamos na página admin.html)
+    const formAdmin = document.getElementById('form-cadastro-produto');
+
+    if (formAdmin) {
+        // 8.2. Estamos na página de admin. Agora, verificamos se o usuário TEM permissão.
+        const isAdmin = localStorage.getItem('adminLogado');
+
+        if (isAdmin !== 'true') {
+            // 8.3. O usuário NÃO ESTÁ logado como admin.
+            // Expulsa ele da página.
+            alert('Acesso negado. Você precisa fazer login como administrador.');
+            window.location.href = '/index.html';
+        }
+    }
+    // --- FIM DO CÓDIGO 8 ---
 }); // <-- FIM DO 'DOMContentLoaded'
 
 
