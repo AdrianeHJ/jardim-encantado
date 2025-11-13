@@ -12,25 +12,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity // mostra que é uma tabela 
-@Data // gera getters e setters automaticamente
-@NoArgsConstructor // gera construtor vazio
-@AllArgsConstructor // gera construtor com todos os atributos
+@Entity 
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
 
 public class Produto {
-    @Id  // marca o campo id como chave primaira
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // banco gerara esse valor automaticamente
+    @Id  
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private int id;
 
     private String nome;
 
-    @Column(length = 1000) // aumenta p tamanho padrão da coluna descrição 
+    @Column(length = 1000) 
     private String descricao;
 
     private int avaliacao;
 
-    @Column(precision = 10, scale = 2) // scale = 2 (garante 2 casas decimais no banco)
-    private BigDecimal preco; // Era 'float', agora é 'BigDecimal'
+    @Column(precision = 10, scale = 2)
+    private BigDecimal preco; 
     
     private String imagemUrl;
 
