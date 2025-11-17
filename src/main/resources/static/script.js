@@ -466,36 +466,65 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     // --- FIM DO CÓDIGO 6 ---
-    // --- CÓDIGO 7: VERIFICA LOGIN PERSISTENTE ---
+    // --- CÓDIGO 7: VERIFICA LOGIN PERSISTENTE (DIVIDIDO) ---
+    
+    // 7.1. Procura no 'cache' do navegador se tem um usuário logado
     const nomeUsuario = localStorage.getItem('usuarioLogado');
+    
+    // 7.2. Se encontrou (ou seja, se um usuário comum está logado)...
     if (nomeUsuario) {
-        // Se achou um nome, vamos mudar o header
+        
+        // --- PARTE A: LADO ESQUERDO (Mensagem "Olá") ---
+
+        // 7.3. Encontra o container da ESQUERDA
+        const iconeEsquerda = document.querySelector('.header-icone-esquerda');
+        // 7.4. Encontra o ícone de LOGIN (que está lá dentro)
         const iconeLogin = document.getElementById('user-icon');
-        const iconeEsquerda = iconeLogin.parentElement; // Pega o <div> "pai"
 
-        // Esconde o ícone de login
-        iconeLogin.style.display = 'none';
+        if (iconeEsquerda && iconeLogin) {
+            // 7.5. Esconde o ícone de LOGIN original
+            iconeLogin.style.display = 'none';
+            
+            // 7.6. Cria o HTML SÓ com a mensagem de "Olá"
+            const htmlOla = `
+                <div class="user-info" style="color: white; display: flex; align-items: center; height: 35px;">
+                    <span>Olá, ${nomeUsuario}</span>
+                </div>
+            `;
+            // 7.7. Insere a mensagem no container da ESQUERDA
+            iconeEsquerda.insertAdjacentHTML('beforeend', htmlOla);
+        }
 
-        // Cria e mostra a mensagem de "Bem-vindo" e o botão "Sair"
-        iconeEsquerda.innerHTML += `
-        <div class="user-info" style="color: white; display: flex; align-items: center; gap: 1rem;">
-            <span>Olá, ${nomeUsuario}</span>
-            <a id="logout-btn" style="cursor: pointer; color: #f0f0f0; text-decoration: underline;">Sair</a>
-        </div>
-    `;
+        // --- PARTE B: LADO DIREITO (Ícone de Sair) ---
+
+        // 7.8. Encontra o container da DIREITA (onde está o carrinho)
+        const iconeDireita = document.querySelector('.header-icone-direita');
+        
+        if (iconeDireita) {
+            // 7.9. Cria o HTML SÓ com o ícone de "Sair"
+            const htmlLogout = `
+                <a id="logout-btn" style="cursor: pointer;" title="Sair">
+                    <img src="/images/sign_out.png" class="material-symbols-outlined" alt="Sair" style="width: 30px; height: 30px;">
+                </a>
+            `;
+            // 7.10. Insere o ícone NO INÍCIO do container da direita
+            // (Isso o coloca ANTES do ícone do carrinho)
+            iconeDireita.insertAdjacentHTML('afterbegin', htmlLogout);
+        }
     }
-
-    // Adiciona o evento de clique no botão "Sair" que acabamos de criar
+    
+    // 7.11. Adiciona o evento de clique no botão "Sair" que acabamos de criar
+    // (Este código não muda, ele vai achar o 'logout-btn' onde quer que ele esteja)
     const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function () {
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
             if (confirm('Deseja realmente sair?')) {
                 localStorage.removeItem('usuarioLogado'); // Limpa o cache
                 window.location.reload(); // Recarrega a página
             }
         });
     }
-    // --- FIM DO CÓDIGO 7 ---
+    // --- FIM DO CÓDIGO 7 (ATUALIZADO) ---
     // --- CÓDIGO 8: "SEGURANÇA" DA PÁGINA ADMIN ---
     
     // 8.1. Tenta encontrar o formulário de cadastro de produto
