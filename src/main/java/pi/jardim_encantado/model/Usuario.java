@@ -51,4 +51,7 @@ public class Usuario {
 
     // O Spring/JPA irá criar uma coluna chamada 'senha'
     private String senha;
+    
+    // NOVO CAMPO: Diz se é chefe (true) ou cliente (false)
+    private boolean admin;
 }
