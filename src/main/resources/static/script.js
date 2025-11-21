@@ -130,16 +130,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 2. Se o ícone existir (ou seja, se estamos na página admin.html)
     if (adminLogoutIcon) {
-    // 3. Adiciona um ouvinte de clique
-    adminLogoutIcon.addEventListener('click', function () {
-        // 4. Pergunta ao usuário se ele realmente quer sair
-        if (confirm("Deseja sair do painel administrativo e voltar para a página inicial?")) {
-            // 5. Se sim, limpa o login e redireciona
-            localStorage.removeItem('adminLogado'); // <-- ADICIONE ESTA LINHA
-            window.location.href = '/index.html'; 
-        }
-    });
-}
+        // 3. Adiciona um ouvinte de clique
+        adminLogoutIcon.addEventListener('click', function () {
+            // 4. Pergunta ao usuário se ele realmente quer sair
+            if (confirm("Deseja sair do painel administrativo e voltar para a página inicial?")) {
+                // 5. Se sim, limpa o login e redireciona
+                localStorage.removeItem('adminLogado'); // <-- ADICIONE ESTA LINHA
+                window.location.href = '/index.html';
+            }
+        });
+    }
     // --- FIM DO NOVO CÓDIGO DO LOGOUT DO ADMIN ---
     // --- FIM DO CÓDIGO DO MODAL ---
 
@@ -341,6 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     // --- FIM DO CÓDIGO 4 (ATUALIZADO) ---
+
     // --- CÓDIGO 5: LÓGICA DA PÁGINA DE PRODUTO ESPECÍFICO ---
 
     // 5.1. Tenta encontrar um elemento que só existe na página de produto
@@ -392,7 +393,50 @@ document.addEventListener('DOMContentLoaded', function () {
             imagemPrincipal.alt = produto.nome;
 
             // (As miniaturas (thumbnails) ainda ficarão estáticas por enquanto)
+            // --- NOVO CÓDIGO DO CARRINHO ---
 
+            // 5.1. Encontra o botão "Adicionar ao carrinho"
+            const btnAdicionar = layout.querySelector('.btn-primary');
+
+            // 5.2. Remove o link que o botão tinha no HTML
+            const linkBotao = btnAdicionar.parentElement;
+            if (linkBotao.tagName === 'A') {
+                linkBotao.replaceWith(btnAdicionar); // Substitui o <a> pelo <button>
+            }
+
+            // 5.3. Adiciona um "ouvinte" de clique no botão
+            btnAdicionar.addEventListener('click', function () {
+
+                // 5.4. Lê o carrinho salvo no localStorage (ou cria um array vazio)
+                // JSON.parse transforma o texto do cache de volta em um objeto/array
+                let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+                // 5.5. Verifica se o produto JÁ ESTÁ no carrinho
+                const itemExistente = carrinho.find(item => item.id === produto.id);
+
+                if (itemExistente) {
+                    // Se já existe, apenas aumenta a quantidade
+                    itemExistente.quantidade++;
+                } else {
+                    // Se não existe, adiciona o produto novo ao carrinho
+                    carrinho.push({
+                        id: produto.id,
+                        nome: produto.nome,
+                        preco: produto.preco,
+                        imagemUrl: produto.imagemUrl,
+                        quantidade: 1 // Começa com 1
+                    });
+                }
+
+                // 5.6. Salva o carrinho atualizado de volta no localStorage
+                // JSON.stringify transforma nosso array em texto para salvar
+                localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+                // 5.7. Avisa o usuário e o redireciona
+                alert('Produto adicionado ao carrinho!');
+                window.location.href = '/comprar.html'; // Manda ele para a página do carrinho
+            });
+            // --- FIM DO NOVO CÓDIGO DO CARRINHO ---
         } catch (error) {
             console.error("Erro ao carregar produto:", error);
             layout.innerHTML = `<h1 style='color: red;'>Erro ao carregar produto.</h1><p>${error.message}</p>`;
@@ -467,13 +511,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // --- FIM DO CÓDIGO 6 ---
     // --- CÓDIGO 7: VERIFICA LOGIN PERSISTENTE (DIVIDIDO) ---
-    
+
     // 7.1. Procura no 'cache' do navegador se tem um usuário logado
     const nomeUsuario = localStorage.getItem('usuarioLogado');
-    
+
     // 7.2. Se encontrou (ou seja, se um usuário comum está logado)...
     if (nomeUsuario) {
-        
+
         // --- PARTE A: LADO ESQUERDO (Mensagem "Olá") ---
 
         // 7.3. Encontra o container da ESQUERDA
@@ -484,7 +528,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (iconeEsquerda && iconeLogin) {
             // 7.5. Esconde o ícone de LOGIN original
             iconeLogin.style.display = 'none';
-            
+
             // 7.6. Cria o HTML SÓ com a mensagem de "Olá"
             const htmlOla = `
                 <div class="user-info" style="color: white; display: flex; align-items: center; height: 35px;">
@@ -499,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 7.8. Encontra o container da DIREITA (onde está o carrinho)
         const iconeDireita = document.querySelector('.header-icone-direita');
-        
+
         if (iconeDireita) {
             // 7.9. Cria o HTML SÓ com o ícone de "Sair"
             const htmlLogout = `
@@ -512,12 +556,12 @@ document.addEventListener('DOMContentLoaded', function () {
             iconeDireita.insertAdjacentHTML('afterbegin', htmlLogout);
         }
     }
-    
+
     // 7.11. Adiciona o evento de clique no botão "Sair" que acabamos de criar
     // (Este código não muda, ele vai achar o 'logout-btn' onde quer que ele esteja)
     const logoutBtn = document.getElementById('logout-btn');
-    if(logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function () {
             if (confirm('Deseja realmente sair?')) {
                 localStorage.removeItem('usuarioLogado'); // Limpa o cache
                 window.location.reload(); // Recarrega a página
@@ -525,8 +569,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     // --- FIM DO CÓDIGO 7 (ATUALIZADO) ---
-    // --- CÓDIGO 8: "SEGURANÇA" DA PÁGINA ADMIN ---
     
+    // --- CÓDIGO 8: "SEGURANÇA" DA PÁGINA ADMIN ---
+
     // 8.1. Tenta encontrar o formulário de cadastro de produto
     // (Isso nos diz se estamos na página admin.html)
     const formAdmin = document.getElementById('form-cadastro-produto');
@@ -543,6 +588,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     // --- FIM DO CÓDIGO 8 ---
+
+    // --- CÓDIGO 9: INICIALIZAR CARRINHO (Se estivermos na página comprar.html) ---
+    const listaCarrinho = document.querySelector('.cart-list');
+    if (listaCarrinho) {
+        // Se achou a lista, significa que estamos na página do carrinho.
+        // Chama a função global para desenhar os itens.
+        atualizarCarrinhoNaTela();
+    }
+    // --- FIM DO CÓDIGO 9 ---
 }); // <-- FIM DO 'DOMContentLoaded'
 
 
@@ -663,4 +717,185 @@ function formatarPreco(preco) {
         style: 'currency',
         currency: 'BRL'
     });
+
+    /**
+ * (FUNÇÃO NOVA)
+ * Lê o localStorage e desenha os itens na página comprar.html
+ */
+    function atualizarCarrinhoNaTela() {
+        const container = document.querySelector('.cart-list');
+        const elementoTotal = document.querySelector('.summary-row.total span:last-child');
+        const elementoSubtotal = document.querySelector('.summary-row span:last-child');
+
+        if (!container) return;
+
+        // 1. Lê o carrinho do cache
+        const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        // 2. Limpa os itens estáticos (de exemplo)
+        container.innerHTML = '';
+
+        // 3. Se estiver vazio...
+        if (carrinho.length === 0) {
+            container.innerHTML = '<div style="padding: 2rem; text-align: center;">Seu carrinho está vazio.</div>';
+            if (elementoTotal) elementoTotal.textContent = 'R$ 0,00';
+            if (elementoSubtotal) elementoSubtotal.textContent = 'R$ 0,00';
+            return;
+        }
+
+        let total = 0;
+
+        // 4. Desenha cada item
+        carrinho.forEach((item, index) => {
+            const subtotalItem = item.preco * item.quantidade;
+            total += subtotalItem;
+
+            const htmlItem = `
+            <div class="cart-item">
+                <div class="cart-item-product">
+                    <img src="${item.imagemUrl}" alt="${item.nome}">
+                    <h3>${item.nome}</h3>
+                </div>
+                <div class="quantity-selector">
+                    <button onclick="alterarQtdCarrinho(${index}, -1)">-</button>
+                    <span class="quantity">${item.quantidade}</span>
+                    <button onclick="alterarQtdCarrinho(${index}, 1)">+</button>
+                </div>
+                <div class="item-price">${formatarPreco(subtotalItem)}</div>
+                <span class="material-symbols-outlined remove-item" onclick="removerItemCarrinho(${index})" style="cursor: pointer;">
+                    <img src="/images/excluir.png" alt="Excluir" style="width: 24px;">
+                </span>
+            </div>
+        `;
+            container.insertAdjacentHTML('beforeend', htmlItem);
+        });
+
+        // 5. Atualiza o Total na tela
+        if (elementoTotal) elementoTotal.textContent = formatarPreco(total);
+        // Atualiza o Subtotal também (geralmente é o primeiro summary-row)
+        // Vamos assumir que o subtotal é o mesmo valor para simplificar
+        const todosValores = document.querySelectorAll('.summary-row span:last-child');
+        if (todosValores.length > 0) todosValores[0].textContent = formatarPreco(total);
+    }
+
+    /**
+     * (FUNÇÃO NOVA)
+     * Aumenta ou diminui a quantidade de um item
+     */
+    function alterarQtdCarrinho(index, mudanca) {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        if (carrinho[index]) {
+            carrinho[index].quantidade += mudanca;
+
+            // Se a quantidade for para 0, remove o item
+            if (carrinho[index].quantidade <= 0) {
+                carrinho.splice(index, 1);
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinhoNaTela(); // Redesenha a tela
+        }
+    }
+
+    /**
+     * (FUNÇÃO NOVA)
+     * Remove um item do carrinho
+     */
+    function removerItemCarrinho(index) {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        carrinho.splice(index, 1); // Remove 1 item na posição index
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        atualizarCarrinhoNaTela(); // Redesenha a tela
+    }
+
+    // --- LÓGICA DO CARRINHO (COMPRAR.HTML) ---
+
+/**
+ * Lê o localStorage e desenha os itens na página comprar.html
+ */
+function atualizarCarrinhoNaTela() {
+    const container = document.querySelector('.cart-list');
+    const elementoTotal = document.querySelector('.summary-row.total span:last-child');
+    const elementoSubtotal = document.querySelector('.summary-row span:last-child');
+    
+    if (!container) return; // Se não estiver na página do carrinho, para aqui.
+
+    // 1. Lê o carrinho do cache
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    // 2. Limpa os itens estáticos (aqueles de exemplo)
+    container.innerHTML = '';
+
+    // 3. Se estiver vazio...
+    if (carrinho.length === 0) {
+        container.innerHTML = '<div style="padding: 2rem; text-align: center; font-size: 1.2rem; color: #666;">Seu carrinho está vazio.</div>';
+        if(elementoTotal) elementoTotal.textContent = 'R$ 0,00';
+        if(elementoSubtotal) elementoSubtotal.textContent = 'R$ 0,00';
+        return;
+    }
+
+    let total = 0;
+
+    // 4. Desenha cada item (Loop)
+    carrinho.forEach((item, index) => {
+        const subtotalItem = item.preco * item.quantidade;
+        total += subtotalItem;
+
+        const htmlItem = `
+            <div class="cart-item">
+                <div class="cart-item-product">
+                    <img src="${item.imagemUrl}" alt="${item.nome}">
+                    <h3>${item.nome}</h3>
+                </div>
+                <div class="quantity-selector">
+                    <button onclick="alterarQtdCarrinho(${index}, -1)">-</button>
+                    <span class="quantity">${item.quantidade}</span>
+                    <button onclick="alterarQtdCarrinho(${index}, 1)">+</button>
+                </div>
+                <div class="item-price">${formatarPreco(subtotalItem)}</div>
+                <span class="material-symbols-outlined remove-item" onclick="removerItemCarrinho(${index})" style="cursor: pointer;">
+                    <img src="/images/excluir.png" alt="Excluir" style="width: 24px;">
+                </span>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', htmlItem);
+    });
+
+    // 5. Atualiza o Total na tela
+    if(elementoTotal) elementoTotal.textContent = formatarPreco(total);
+    
+    // Atualiza o Subtotal também
+    const todosValores = document.querySelectorAll('.summary-row span:last-child');
+    if(todosValores.length > 0) todosValores[0].textContent = formatarPreco(total);
+}
+
+/**
+ * Aumenta ou diminui a quantidade de um item
+ */
+function alterarQtdCarrinho(index, mudanca) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    
+    if (carrinho[index]) {
+        carrinho[index].quantidade += mudanca;
+        
+        // Se a quantidade for para 0, remove o item
+        if (carrinho[index].quantidade <= 0) {
+            carrinho.splice(index, 1);
+        }
+        
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        atualizarCarrinhoNaTela(); // Redesenha a tela
+    }
+}
+
+/**
+ * Remove um item do carrinho
+ */
+function removerItemCarrinho(index) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho.splice(index, 1); // Remove 1 item na posição index
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    atualizarCarrinhoNaTela(); // Redesenha a tela
+}
 }
