@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // --- CÓDIGO 0: VALIDAÇÃO E ATUALIZAÇÃO GERAL ---
+    //VALIDAÇÃO E ATUALIZAÇÃO GERAL ---
     validarItensDoCarrinho();
     atualizarPrecosCheckout(); 
 
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- ADMIN ---
+    // --- CADASTRO DE PRODUTOS (ADMIN) ---
     const formCadastro = document.getElementById('form-cadastro-produto');
     const selectPagina = document.getElementById('produto-pagina');
     const selectSecao = document.getElementById('produto-secao');
@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // CADASTRO DE PRODUTOS
     if (formCadastro) {
         formCadastro.addEventListener('submit', function (evento) {
             evento.preventDefault();
@@ -373,7 +374,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- MÁSCARA CEP ---
-    // MUDANÇA: Agora pegamos pelo ID 'cep-input' para garantir que é o certo
     const inputCEP = document.getElementById('cep-input');
     if (inputCEP) {
         inputCEP.addEventListener('input', function(e) {
@@ -385,9 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =========================================================================
-    // 2. LÓGICA DO CARRINHO E CHECKOUT
-    // =========================================================================
+    //LÓGICA DO CARRINHO E CHECKOUT
 
     const listaCarrinho = document.querySelector('.cart-list');
     if (listaCarrinho) {
@@ -412,30 +410,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // >>>> NOVA VALIDAÇÃO DE FRETE OBRIGATÓRIO <<<<
+    // FRETE E VALIDAÇÕES NO CHECKOUT
     const btnCheckout = document.getElementById('btn-checkout');
     if (btnCheckout) {
         btnCheckout.addEventListener('click', function(e) {
             
-            // 1. Valida se o número do CEP foi digitado corretamente
             const cepInput = document.getElementById('cep-input');
-            // Remove traço e tudo que não for número para contar os dígitos
             const cepValor = cepInput ? cepInput.value.replace(/\D/g, '') : '';
 
             if (cepValor.length !== 8) {
-                e.preventDefault(); // Bloqueia o clique
+                e.preventDefault(); 
                 alert("Por favor, digite um CEP válido (8 números) antes de finalizar.");
-                if(cepInput) cepInput.focus(); // Leva o cursor para o campo
-                return; // Para a execução aqui
+                if(cepInput) cepInput.focus(); 
+                return; //
             }
 
-            // 2. Valida se uma opção de frete (bolinha) foi selecionada
             const freteSelecionado = document.querySelector('input[name="frete"]:checked');
             
             if (!freteSelecionado) {
-                e.preventDefault(); // Bloqueia o clique
+                e.preventDefault(); 
                 alert("Por favor, selecione uma opção de frete (PAC, SEDEX ou Grátis) para continuar.");
-                // Rola a tela até a calculadora de frete
                 document.querySelector('.frete-calculator').scrollIntoView({behavior: 'smooth'});
             }
         });
@@ -447,6 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // FUNÇÕES AUXILIARES
 // ===================================================================================
 
+// Retorna a chave do carrinho baseada no usuário logado
 function getChaveCarrinho() {
     const email = localStorage.getItem('usuarioEmail');
     return email ? `carrinho_${email}` : 'carrinho_visitante';
