@@ -70,6 +70,27 @@
                 </div>
 
                 <div class="input-group">
+                    <select id="produto-pagina" required
+                        style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
+                        <option value="" disabled selected>Escolha a Página...</option>
+                        <option value="home">Página Inicial (Home)</option>
+                        <option value="buques">Buquês</option>
+                        <option value="conjuntos">Conjuntos</option>
+                        <option value="mudas">Mudas</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <select id="produto-secao" required style="width: 100%; padding: 10px; border-radius: 8px;">
+                        <option value="" disabled selected>Escolha a Seção...</option>
+                        <option value="novidades">Novidades</option>
+                        <option value="promocoes">Promoções</option>
+                        <option value="frete_gratis">Frete Grátis</option>
+                        <option value="mais_vendidos">Mais Vendidos</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
                     <input type="text" id="produto-imagemUrl"
                         placeholder="URL da Imagem (ex: images/img_flores/buque0.jpeg)" required>
                 </div>

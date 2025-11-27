@@ -29,162 +29,66 @@
                         <a href="/personalizados.html">Personalizados</a>
                     </nav>
                     <div class="header-icone-direita">
-                        <a href="/comprar.html"><span><img src="/images/carrinho branco.png" class="material-symbols-outlined" alt="carrinho"></span></a>
+                        <a href="/carrinho.html"><span><img src="/images/carrinho branco.png" class="material-symbols-outlined" alt="carrinho"></span></a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
     <main class="container">
         
         <section class="product-section">
             <h2 class="product-section-title">Novidades</h2>
-            <div class="product-grid">
-                <div class="product-card"><img src="/images/img_flores/muda1.jpeg" alt="Muda 1"></div>
-                <div class="product-card"><img src="/images/img_flores/muda2.jpeg" alt="Muda 2"></div>
-                <div class="product-card"><img src="/images/img_flores/muda3.jpeg" alt="Muda 3"></div>
-                <div class="product-card"><img src="/images/img_flores/muda4.jpeg" alt="Muda 4"></div>
+            <div class="slider-container">
+                <button class="slider-arrow arrow-prev">&#8249;</button>
+                <div class="product-grid" data-pagina="mudas" data-secao="novidades"></div>
+                <button class="slider-arrow arrow-next">&#8250;</button>
             </div>
         </section>
 
         <section class="product-section">
             <h2 class="product-section-title">Promoções</h2>
-            <div class="product-grid">
-                <div class="product-card"><img src="/images/img_flores/muda5.jpeg" alt="Muda 5"></div>
-                <div class="product-card"><img src="/images/img_flores/muda6.jpeg" alt="Muda 6"></div>
-                <div class="product-card"><img src="/images/img_flores/muda7.jpeg" alt="Muda 7"></div>
-                <div class="product-card"><img src="/images/img_flores/muda8.jpeg" alt="Muda 8"></div>
+            <div class="slider-container">
+                <button class="slider-arrow arrow-prev">&#8249;</button>
+                <div class="product-grid" data-pagina="mudas" data-secao="promocoes"></div>
+                <button class="slider-arrow arrow-next">&#8250;</button>
             </div>
         </section>
 
         <section class="product-section">
             <h2 class="product-section-title">Frete grátis</h2>
-            <div class="product-grid">
-                <div class="product-card"><img src="/images/img_flores/muda3.jpeg" alt="Muda 9"></div>
-                <div class="product-card"><img src="/images/img_flores/muda9.jpg" alt="Muda 10"></div>
-                <div class="product-card"><img src="/images/img_flores/muda1.jpeg" alt="Muda 11"></div>
-                <div class="product-card"><img src="/images/img_flores/muda10.jpeg" alt="Muda 12"></div>
+            <div class="slider-container">
+                <button class="slider-arrow arrow-prev">&#8249;</button>
+                <div class="product-grid" data-pagina="mudas" data-secao="frete_gratis"></div>
+                <button class="slider-arrow arrow-next">&#8250;</button>
             </div>
         </section>
     </main>
 
     <div id="auth-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="material-symbols-outlined modal-close"><img src="/images/fechar.png"></span>
-
-        <div id="login-view" class="modal-view active">
-            <h3 class="auth-header">
-                <span class="material-symbols-outlined"></span>
-                Entre na sua conta
-            </h3>
-            <button class="social-btn">
-                <img src="/images/facebook.png" alt="Facebook">
-                Entrar com Facebook
-            </button>
-            <button class="social-btn">
-                <img src="/images/google.png" alt="Google">
-                Entrar com Google
-            </button>
-
-            <div class="auth-divider">ou se preferir</div>
-
-            <form>
-                <div class="input-group">
-                    <input type="email" placeholder="E-mail">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Senha">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full-width">Entrar</button>
-            </form>
-            
-            <p class="auth-link">
-                <a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a>
-            </p>
-            <p class="auth-link" style="margin-top: 0.5rem;">
-                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
-            </p>
+        <div class="modal-content">
+             <span class="material-symbols-outlined modal-close"><img src="/images/fechar.png"></span>
+             <div id="login-view" class="modal-view active">
+                 <h3 class="auth-header">Entre na sua conta</h3>
+                 <form><div class="input-group"><input type="email" placeholder="E-mail"><span class="material-symbols-outlined input-icon"></span></div><div class="input-group"><input type="password" placeholder="Senha"><span class="material-symbols-outlined input-icon"></span></div><button type="submit" class="btn btn-primary btn-full-width">Entrar</button></form>
+                 <p class="auth-link"><a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a></p>
+                 <p class="auth-link" style="margin-top: 0.5rem;">Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a></p>
+             </div>
+             <div id="register-view" class="modal-view">
+                <h3 class="auth-header">Crie sua conta</h3>
+                <form><div class="input-group"><input type="email" placeholder="E-mail" required></div><div class="input-group"><input type="text" placeholder="Nome Completo" required></div><div class="input-group"><input type="tel" placeholder="Telefone/Whatsapp"></div><div class="input-group"><input type="password" placeholder="Senha" required></div><button type="submit" class="btn btn-primary btn-full-width">Criar conta</button></form>
+                <p class="auth-link">Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a></p>
+            </div>
+             <div id="reset-view" class="modal-view">
+                <h3 class="auth-header">Redefinir senha</h3>
+                <form><div class="input-group"><input type="email" placeholder="E-mail"></div><button type="submit" class="btn btn-primary btn-full-width">Enviar</button></form>
+                <p class="auth-link">Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a></p>
+            </div>
         </div>
-
-        <div id="register-view" class="modal-view">
-            <h3 class="auth-header">
-                <span class="material-symbols-outlined"></span>
-                Crie sua conta
-            </h3>
-            <button class="social-btn">
-                <img src="/images/facebook.png" alt="Facebook">
-                Criar com Facebook
-            </button>
-            <button class="social-btn">
-                <img src="/images/google.png" alt="Google">
-                Criar com Google
-            </button>
-
-            <div class="auth-divider">ou se preferir</div>
-
-            <form>
-                <div class="input-group">
-                    <input type="email" placeholder="E-mail">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="text" placeholder="Nome Completo">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="tel" placeholder="Telefone/Whatsapp">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Senha">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                
-                <div class="auth-checkbox">
-                    <input type="checkbox" id="check-email">
-                    <label for="check-email">Desejo receber ofertas por e-mail</label>
-                </div>
-                <div class="auth-checkbox">
-                    <input type="checkbox" id="check-whatsapp">
-                    <label for="check-whatsapp">Desejo receber atualizações por whatsapp</label>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-full-width">Criar conta</button>
-            </form>
-            
-            <p class="auth-link">
-                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
-            </p>
-        </div>
-
-        <div id="reset-view" class="modal-view">
-            <h3 class="auth-header" style="justify-content: center;">
-                Redefinir senha
-            </h3>
-
-            <p class="reset-intro">Enviaremos um e-mail para você com um senha provisória.</p>
-
-            <form>
-                <div class="input-group">
-                    <input type="email" placeholder="E-mail">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full-width">Enviar</button>
-            </form>
-            
-            <p class="auth-link">
-                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
-            </p>
-            <p class="auth-link" style="margin-top: 0.5rem;">
-                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
-            </p>
-        </div>
-
     </div>
-</div>
-<footer class="footer container">
+
+    <footer class="footer container">
         <div class="footer-col">
             <h3>Quem somos</h3>
             <ul>
@@ -210,6 +114,5 @@
             </ul>
         </div>
     </footer>
-
 </body>
 </html>

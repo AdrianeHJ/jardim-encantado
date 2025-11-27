@@ -50,75 +50,27 @@
             </div>
         </div>
     </header>
+    
     <main class="container">
         <img src="/images/foto1.carrossel.jpg" alt="Banner Principal" class="hero-banner">
-        <!--Apenas para mostrar como ficará a estrutura dos prod na pagina, com foto, avaliação e preço-->
+        
         <section class="product-section">
             <h2 class="product-section-title">Promoções</h2>
-            <div class="product-grid">
-
-                <div class="product-card">
-                    <a href="/produto.html"> <img src="/images/img_flores/buque0.jpeg" alt="Produto 1">
-                    </a>
-                    <div class="product-card-info">
-                        <h3>Buquê de Girassol</h3>
-                        <div class="product-card-rating">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
-                        </div>
-                        <div class="product-card-price">R$ 119,90</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <a href="/produto.html"> <img src="/images/img_flores/buque1.jpeg" alt="Produto 2">
-                    </a>
-                    <div class="product-card-info">
-                        <h3>Buquê de Rosas pretas</h3>
-                        <div class="product-card-rating">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                        </div>
-                        <div class="product-card-price">R$ 179,90</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <a href="/produto.html"> <img src="/images/img_flores/flor.png" alt="Produto 3">
-                    </a>
-                    <div class="product-card-info">
-                        <h3>Buquê de Outono</h3>
-                        <div class="product-card-rating">
-                            <span>★</span><span>★</span><span>★</span><span>⯨</span><span>☆</span>
-                        </div>
-                        <div class="product-card-price">R$ 149,90</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <a href="/produto.html"> <img src="/images/img_flores/rosa7.jpeg" alt="Produto 4">
-                    </a>
-                    <div class="product-card-info">
-                        <h3>Buquê de Rosas</h3>
-                        <div class="product-card-rating">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>⯨</span>
-                        </div>
-                        <div class="product-card-price">R$ 199,90</div>
-                    </div>
-                </div>
+            
+            <div class="slider-container">
+                <button class="slider-arrow arrow-prev">&#8249;</button>
+                <div class="product-grid" data-pagina="home" data-secao="promocoes"></div>
+                <button class="slider-arrow arrow-next">&#8250;</button>
             </div>
         </section>
 
         <section class="product-section">
             <h2 class="product-section-title">Mais vendidos</h2>
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="/images/img_flores/kit2.jpeg" alt="Produto 5">
-                </div>
-                <div class="product-card">
-                    <img src="/images/img_flores/kit3.jpeg" alt="Produto 6">
-                </div>
-                <div class="product-card">
-                    <img src="/images/img_flores/kit4.jpeg" alt="Produto 7">
-                </div>
-                <div class="product-card">
-                    <img src="/images/img_flores/rosa1.jpeg" alt="Produto 8">
-                </div>
+            
+            <div class="slider-container">
+                <button class="slider-arrow arrow-prev">&#8249;</button>
+                <div class="product-grid" data-pagina="home" data-secao="mais_vendidos"></div>
+                <button class="slider-arrow arrow-next">&#8250;</button>
             </div>
         </section>
     </main>
@@ -126,119 +78,25 @@
     <div id="auth-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="material-symbols-outlined modal-close"><img src="/images/fechar.png"></span>
-
             <div id="login-view" class="modal-view active">
-                <h3 class="auth-header">
-                    <span class="material-symbols-outlined"></span>
-                    Entre na sua conta
-                </h3>
-                <button class="social-btn">
-                    <img src="/images/facebook.png" alt="Facebook">
-                    Entrar com Facebook
-                </button>
-                <button class="social-btn">
-                    <img src="/images/google.png" alt="Google">
-                    Entrar com Google
-                </button>
-
-                <div class="auth-divider">ou se preferir</div>
-
-                <form>
-                    <div class="input-group">
-                        <input type="email" placeholder="E-mail">
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" placeholder="Senha">
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-full-width">Entrar</button>
-                </form>
-
-                <p class="auth-link">
-                    <a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a>
-                </p>
-                <p class="auth-link" style="margin-top: 0.5rem;">
-                    Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
-                </p>
+                <h3 class="auth-header"><span class="material-symbols-outlined"></span>Entre na sua conta</h3>
+                 <form><div class="input-group"><input type="email" placeholder="E-mail"><span class="material-symbols-outlined input-icon"></span></div><div class="input-group"><input type="password" placeholder="Senha"><span class="material-symbols-outlined input-icon"></span></div><button type="submit" class="btn btn-primary btn-full-width">Entrar</button></form>
+                 <p class="auth-link"><a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a></p>
+                 <p class="auth-link" style="margin-top: 0.5rem;">Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a></p>
             </div>
-
             <div id="register-view" class="modal-view">
-                <h3 class="auth-header">
-                    <span class="material-symbols-outlined"></span>
-                    Crie sua conta
-                </h3>
-                <button class="social-btn">
-                    <img src="/images/facebook.png" alt="Facebook">
-                    Criar com Facebook
-                </button>
-                <button class="social-btn">
-                    <img src="/images/google.png" alt="Google">
-                    Criar com Google
-                </button>
-
-                <div class="auth-divider">ou se preferir</div>
-
-                <form>
-                    <div class="input-group">
-                        <input type="email" placeholder="E-mail" required>
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" placeholder="Nome Completo" required>
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-                    <div class="input-group">
-                        <input type="tel" placeholder="Telefone/Whatsapp">
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" placeholder="Senha" required>
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-
-                    <div class="auth-checkbox">
-                        <input type="checkbox" id="check-email">
-                        <label for="check-email">Desejo receber ofertas por e-mail</label>
-                    </div>
-                    <div class="auth-checkbox">
-                        <input type="checkbox" id="check-whatsapp">
-                        <label for="check-whatsapp">Desejo receber atualizações por whatsapp</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-full-width">Criar conta</button>
-                </form>
-
-                <p class="auth-link">
-                    Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
-                </p>
+                <h3 class="auth-header">Crie sua conta</h3>
+                <form><div class="input-group"><input type="email" placeholder="E-mail" required></div><div class="input-group"><input type="text" placeholder="Nome Completo" required></div><div class="input-group"><input type="tel" placeholder="Telefone/Whatsapp"></div><div class="input-group"><input type="password" placeholder="Senha" required></div><button type="submit" class="btn btn-primary btn-full-width">Criar conta</button></form>
+                <p class="auth-link">Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a></p>
             </div>
-
-            <div id="reset-view" class="modal-view">
-                <h3 class="auth-header" style="justify-content: center;">
-                    Redefinir senha
-                </h3>
-
-                <p class="reset-intro">Enviaremos um e-mail para você com um senha provisória.</p>
-
-                <form>
-                    <div class="input-group">
-                        <input type="email" placeholder="E-mail">
-                        <span class="material-symbols-outlined input-icon"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-full-width">Enviar</button>
-                </form>
-
-                <p class="auth-link">
-                    Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
-                </p>
-                <p class="auth-link" style="margin-top: 0.5rem;">
-                    Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
-                </p>
+             <div id="reset-view" class="modal-view">
+                <h3 class="auth-header">Redefinir senha</h3>
+                <form><div class="input-group"><input type="email" placeholder="E-mail"></div><button type="submit" class="btn btn-primary btn-full-width">Enviar</button></form>
+                <p class="auth-link">Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a></p>
             </div>
-
         </div>
     </div>
+
     <footer class="footer container">
         <div class="footer-col">
             <h3>Quem somos</h3>
@@ -265,7 +123,5 @@
             </ul>
         </div>
     </footer>
-
 </body>
-
 </html>

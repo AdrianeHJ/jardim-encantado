@@ -52,40 +52,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- ADMIN: CADASTRO DE PRODUTO ---
+    // --- CÓDIGO 2: ADMIN (Cadastro Atualizado) ---
     const formCadastro = document.getElementById('form-cadastro-produto');
     if (formCadastro) {
         formCadastro.addEventListener('submit', function (evento) {
             evento.preventDefault();
             const mensagemFeedback = document.getElementById('feedback-mensagem');
-            let erros = [];
-
+            
+            // Pega os valores básicos
             const nome = document.getElementById('produto-nome').value;
             const descricao = document.getElementById('produto-descricao').value;
             const imagemUrl = document.getElementById('produto-imagemUrl').value;
-            const precoString = document.getElementById('produto-preco').value;
-            const precoFormatado = precoString.replace(",", ".");
-            const preco = parseFloat(precoFormatado);
+            const preco = parseFloat(document.getElementById('produto-preco').value.replace(",", "."));
             const avaliacao = parseInt(document.getElementById('produto-avaliacao').value);
-
-            if (nome.trim() === '') erros.push('O "Nome" não pode ser vazio.');
-            if (isNaN(preco) || preco <= 0) erros.push('O "Preço" deve ser um número válido.');
             
-            if (erros.length > 0) {
-                mensagemFeedback.style.color = '#E74C3C';
-                mensagemFeedback.innerHTML = erros.join('<br>');
-                return;
-            }
-
-            mensagemFeedback.textContent = 'Salvando...';
-            mensagemFeedback.style.color = '#FFF';
+            // PEGA OS NOVOS VALORES
+            const pagina = document.getElementById('produto-pagina').value;
+            const secao = document.getElementById('produto-secao').value;
 
             const produto = {
-                nome: nome.trim(),
-                descricao: descricao.trim(),
-                preco: preco,
-                avaliacao: avaliacao,
-                imagemUrl: imagemUrl.trim()
+                nome, descricao, preco, avaliacao, imagemUrl,
+                pagina, // Envia pagina
+                secao   // Envia secao
             };
 
             fetch('/api/produtos', {
@@ -93,18 +81,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(produto)
             })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao salvar');
-                return response.json();
+            .then(res => {
+                if(res.ok) {
+                    mensagemFeedback.textContent = "Produto salvo com sucesso!";
+                    mensagemFeedback.style.color = 'var(--cor-verde-logo)';
+                    formCadastro.reset();
+                } else {
+                    throw new Error();
+                }
             })
-            .then(produtoSalvo => {
-                mensagemFeedback.textContent = `Produto "${produtoSalvo.nome}" salvo com sucesso!`;
-                mensagemFeedback.style.color = 'var(--cor-verde-logo)';
-                formCadastro.reset();
-            })
-            .catch(error => {
-                mensagemFeedback.textContent = 'Falha ao salvar. Verifique o console.';
-                mensagemFeedback.style.color = '#E74C3C';
+            .catch(() => {
+                mensagemFeedback.textContent = "Erro ao salvar.";
+                mensagemFeedback.style.color = 'red';
             });
         });
     }
@@ -233,13 +221,55 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // --- CARREGAR GRADES DE PRODUTOS (HOME) ---
-    const todasAsGrids = document.querySelectorAll('.product-section .product-grid');
-    if (todasAsGrids.length > 0) {
-        todasAsGrids.forEach((grid, index) => {
-            carregarProdutos(grid, index);
-        });
+    // --- CÓDIGO 3: CARROSSEL E FILTROS ---
+    const grids = document.querySelectorAll('.product-grid');
+    if (grids.length > 0) {
+        // 1. Busca todos os produtos do banco UMA VEZ
+        fetch('/api/produtos')
+            .then(res => res.json())
+            .then(todosProdutos => {
+                // 2. Para cada grade na tela...
+                grids.forEach(grid => {
+                    const pAlvo = grid.getAttribute('data-pagina');
+                    const sAlvo = grid.getAttribute('data-secao');
+
+                    // 3. Filtra: produto.pagina == html.pagina E produto.secao == html.secao
+                    const filtrados = todosProdutos.filter(p => p.pagina === pAlvo && p.secao === sAlvo);
+
+                    grid.innerHTML = '';
+                    if (filtrados.length === 0) {
+                        grid.innerHTML = '<p style="color:#ccc; padding:1rem;">Sem produtos aqui.</p>';
+                    }
+
+                    // 4. Cria os cards
+                    filtrados.forEach(prod => {
+                        const card = `
+                            <div class="product-card">
+                                <a href="/produto.html?id=${prod.id}"> 
+                                    <img src="${prod.imagemUrl}" alt="${prod.nome}">
+                                </a>
+                                <div class="product-card-info">
+                                    <h3>${prod.nome}</h3>
+                                    <div class="product-card-rating">${gerarEstrelas(prod.avaliacao)}</div>
+                                    <div class="product-card-price">${formatarPreco(prod.preco)}</div>
+                                </div>
+                            </div>`;
+                        grid.insertAdjacentHTML('beforeend', card);
+                    });
+                });
+            })
+            .catch(err => console.error("Erro ao carregar produtos:", err));
     }
+
+    // --- Lógica das Setas ---
+    document.querySelectorAll('.slider-arrow').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const container = btn.parentElement.querySelector('.product-grid');
+            const scroll = 300;
+            if (btn.classList.contains('arrow-next')) container.scrollBy({ left: scroll, behavior: 'smooth' });
+            else container.scrollBy({ left: -scroll, behavior: 'smooth' });
+        });
+    });7
 
     // --- CARREGAR PRODUTO ESPECÍFICO ---
     const layoutProduto = document.querySelector('.product-detail-layout');

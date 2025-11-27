@@ -1194,6 +1194,56 @@ img {
     
     /* (Linha nova) Alinha o ícone à esquerda (e impede que ele estique) */
     justify-content: flex-start; 
+
+    /* --- CARROSSEL DE PRODUTOS --- */
+.slider-container {
+    position: relative;
+    padding: 0 50px; /* Espaço para as setas */
+}
+
+.product-grid {
+    display: flex; /* Alinha produtos lado a lado */
+    gap: 1.5rem;
+    overflow-x: auto; /* Permite rolagem horizontal */
+    scroll-behavior: smooth; /* Rolagem suave */
+    padding-bottom: 1rem;
+    scrollbar-width: none; /* Esconde barra de rolagem (Firefox) */
+}
+
+.product-grid::-webkit-scrollbar {
+    display: none; /* Esconde barra de rolagem (Chrome/Safari) */
+}
+
+.product-card {
+    flex: 0 0 250px; /* Garante largura fixa para cada card */
+    min-width: 250px;
+}
+
+/* Botões de Seta */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--cor-verde-logo);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+.slider-arrow:hover { opacity: 1; }
+.arrow-prev { left: 0; }
+.arrow-next { right: 0; }
 }
 /* --- Importações de Fontes e Ícones --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');

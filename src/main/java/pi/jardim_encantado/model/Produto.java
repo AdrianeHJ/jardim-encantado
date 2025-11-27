@@ -34,4 +34,9 @@ public class Produto {
     
     private String imagemUrl;
 
+    private String pagina; // ex: "home", "buques", "conjuntos"
+    private String secao;  // ex: "promocoes", "novidades", "mais_vendidos"
+
+
+
 }
