@@ -55,20 +55,20 @@
                     <div class="frete-calculator">
                         <h4>Calcular frete</h4>
                         <div class="frete-input">
-                            <input type="text" placeholder="04800-440" value="04800-440">
-                            <button class="btn btn-dark">Calcular</button>
+                            <input type="text" id="cep-input" placeholder="00000-000" maxlength="9">
+                            <button class="btn btn-dark" type="button">Calcular</button>
                         </div>
                         <div class="frete-options">
                             <div class="radio-option">
-                                <div><input type="radio" name="frete" checked> 10 dias úteis</div>
+                                <div><input type="radio" name="frete" value="gratis"> 10 dias úteis</div>
                                 <strong>R$ 6,00 Frete Grátis</strong>
                             </div>
                             <div class="radio-option">
-                                <div><input type="radio" name="frete"> 10 dias úteis</div>
+                                <div><input type="radio" name="frete" value="pac"> 10 dias úteis</div>
                                 <strong>R$ 10,47 PAC</strong>
                             </div>
                              <div class="radio-option">
-                                <div><input type="radio" name="frete"> 4 dias úteis</div>
+                                <div><input type="radio" name="frete" value="sedex"> 4 dias úteis</div>
                                 <strong>R$ 19,43 SEDEX</strong>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="cart-final-buttons">
                     <a href="/index.html" class="btn btn-dark">Continuar comprando</a>
-                    <a href="/finalizar.html" class="btn btn-primary">Finalizar compra</a>
+                    <a href="/finalizar.html" id="btn-checkout" class="btn btn-primary">Finalizar compra</a>
                 </div>
             </div>
         </div>

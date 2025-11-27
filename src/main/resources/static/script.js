@@ -1,9 +1,66 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // --- CÓDIGO 0: VALIDAÇÃO AUTOMÁTICA DO CARRINHO (NOVO!) ---
-    // Assim que a página abre, verifica se os itens do carrinho ainda existem no banco.
-    // Se você apagou o banco de dados, isso vai limpar o carrinho automaticamente.
+    // --- CÓDIGO 0: VALIDAÇÃO E ATUALIZAÇÃO GERAL ---
     validarItensDoCarrinho();
+    atualizarPrecosCheckout(); 
+
+    // =========================================================================
+    // LÓGICA DE PERSONALIZADOS
+    // =========================================================================
+    const formPersonalizados = document.getElementById('form-personalizados');
+    const displayTotal = document.getElementById('total-display');
+
+    if (formPersonalizados) {
+        function calcularTotalPersonalizado() {
+            let total = 0;
+            const selecionados = formPersonalizados.querySelectorAll('input:checked');
+            
+            selecionados.forEach(input => {
+                const preco = parseFloat(input.getAttribute('data-preco')) || 0;
+                total += preco;
+            });
+            
+            if(displayTotal) {
+                displayTotal.textContent = formatarPreco(total);
+            }
+            return total;
+        }
+
+        formPersonalizados.addEventListener('change', calcularTotalPersonalizado);
+
+        formPersonalizados.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const total = calcularTotalPersonalizado();
+            
+            const tamanhoSelecionado = formPersonalizados.querySelector('input[name="tamanho"]:checked');
+            if (!tamanhoSelecionado) {
+                alert("Por favor, selecione o tamanho do buquê.");
+                return;
+            }
+
+            let itensEscolhidos = [];
+            formPersonalizados.querySelectorAll('input:checked').forEach(input => {
+                itensEscolhidos.push(input.value);
+            });
+
+            const produtoCustom = {
+                id: 'custom_' + new Date().getTime(), 
+                nome: 'Buquê Personalizado',
+                descricao: 'Itens: ' + itensEscolhidos.join(', '),
+                preco: total,
+                imagemUrl: '/images/LogoSemFundo.png', 
+                quantidade: 1
+            };
+
+            const chave = getChaveCarrinho();
+            let carrinho = JSON.parse(localStorage.getItem(chave)) || [];
+            carrinho.push(produtoCustom);
+            localStorage.setItem(chave, JSON.stringify(carrinho));
+
+            alert('Seu buquê personalizado foi adicionado ao carrinho!');
+            window.location.href = '/comprar.html';
+        });
+    }
 
     // =========================================================================
     // 1. LÓGICA GERAL (MODAL, LOGIN, CADASTRO)
@@ -52,28 +109,69 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- CÓDIGO 2: ADMIN (Cadastro Atualizado) ---
+    // --- ADMIN ---
     const formCadastro = document.getElementById('form-cadastro-produto');
+    const selectPagina = document.getElementById('produto-pagina');
+    const selectSecao = document.getElementById('produto-secao');
+
+    const secoesPorPagina = {
+        'home': [
+            { valor: 'promocoes', texto: 'Promoções' },
+            { valor: 'mais_vendidos', texto: 'Mais Vendidos' }
+        ],
+        'buques': [
+            { valor: 'novidades', texto: 'Novidades' },
+            { valor: 'promocoes', texto: 'Promoções' },
+            { valor: 'frete_gratis', texto: 'Frete Grátis' }
+        ],
+        'conjuntos': [
+            { valor: 'novidades', texto: 'Novidades' },
+            { valor: 'promocoes', texto: 'Promoções' },
+            { valor: 'frete_gratis', texto: 'Frete Grátis' }
+        ],
+        'mudas': [
+            { valor: 'novidades', texto: 'Novidades' },
+            { valor: 'promocoes', texto: 'Promoções' },
+            { valor: 'frete_gratis', texto: 'Frete Grátis' }
+        ]
+    };
+
+    if (selectPagina && selectSecao) {
+        selectPagina.addEventListener('change', function() {
+            const paginaSelecionada = this.value;
+            const opcoes = secoesPorPagina[paginaSelecionada];
+
+            selectSecao.innerHTML = '<option value="" disabled selected>Escolha a Seção...</option>';
+
+            if (opcoes) {
+                selectSecao.disabled = false;
+                opcoes.forEach(opcao => {
+                    const elementOption = document.createElement('option');
+                    elementOption.value = opcao.valor;
+                    elementOption.textContent = opcao.texto;
+                    selectSecao.appendChild(elementOption);
+                });
+            } else {
+                selectSecao.disabled = true;
+            }
+        });
+    }
+
     if (formCadastro) {
         formCadastro.addEventListener('submit', function (evento) {
             evento.preventDefault();
             const mensagemFeedback = document.getElementById('feedback-mensagem');
             
-            // Pega os valores básicos
             const nome = document.getElementById('produto-nome').value;
             const descricao = document.getElementById('produto-descricao').value;
             const imagemUrl = document.getElementById('produto-imagemUrl').value;
             const preco = parseFloat(document.getElementById('produto-preco').value.replace(",", "."));
             const avaliacao = parseInt(document.getElementById('produto-avaliacao').value);
-            
-            // PEGA OS NOVOS VALORES
             const pagina = document.getElementById('produto-pagina').value;
             const secao = document.getElementById('produto-secao').value;
 
             const produto = {
-                nome, descricao, preco, avaliacao, imagemUrl,
-                pagina, // Envia pagina
-                secao   // Envia secao
+                nome, descricao, preco, avaliacao, imagemUrl, pagina, secao
             };
 
             fetch('/api/produtos', {
@@ -97,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- LOGIN UNIFICADO ---
+    // --- LOGIN E REGISTRO ---
     const loginForm = document.querySelector('#login-view form');
     if (loginForm) {
         loginForm.addEventListener('submit', async function(event) {
@@ -139,7 +237,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- REGISTRO DE USUÁRIO ---
     const registerForm = document.querySelector('#register-view form');
     if (registerForm) {
         registerForm.addEventListener('submit', async function(event) {
@@ -171,28 +268,25 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- HEADER DINÂMICO (LOGIN/LOGOUT) ---
+    // --- HEADER DINÂMICO ---
     const nomeUsuario = localStorage.getItem('usuarioLogado');
     if (nomeUsuario) {
         const iconeEsquerda = document.querySelector('.header-icone-esquerda');
         const iconeLogin = document.getElementById('user-icon');
         const iconeDireita = document.querySelector('.header-icone-direita');
 
-        // Esquerda: "Olá, Nome"
         if (iconeEsquerda && iconeLogin) {
             iconeLogin.style.display = 'none'; 
             const htmlOla = `<div class="user-info" style="color: white; display: flex; align-items: center; height: 35px;"><span>Olá, ${nomeUsuario}</span></div>`;
             iconeEsquerda.insertAdjacentHTML('beforeend', htmlOla);
         }
         
-        // Direita: Botão Sair (Imagem)
         if (iconeDireita) {
             const htmlLogout = `<a id="logout-btn" style="cursor: pointer;" title="Sair"><img src="/images/sign_out.png" class="material-symbols-outlined" alt="Sair" style="width: 30px; height: 30px;"></a>`;
             iconeDireita.insertAdjacentHTML('afterbegin', htmlLogout);
         }
     }
     
-    // Logout Geral
     document.addEventListener('click', function(e) {
         if (e.target.closest('#logout-btn')) {
             if (confirm('Deseja realmente sair?')) {
@@ -202,16 +296,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.reload();
             }
         }
-        // Logout Admin
-        if (e.target.closest('#admin-logout-icon')) {
-            if (confirm("Deseja sair do painel administrativo?")) {
-                localStorage.removeItem('adminLogado');
-                window.location.href = '/index.html';
-            }
-        }
     });
 
-    // Segurança Admin
     const formAdmin = document.getElementById('form-cadastro-produto');
     if (formAdmin) {
         const isAdmin = localStorage.getItem('adminLogado');
@@ -221,47 +307,57 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // --- CÓDIGO 3: CARROSSEL E FILTROS ---
+    // --- CARROSSEL ---
     const grids = document.querySelectorAll('.product-grid');
     if (grids.length > 0) {
-        // 1. Busca todos os produtos do banco UMA VEZ
         fetch('/api/produtos')
             .then(res => res.json())
             .then(todosProdutos => {
-                // 2. Para cada grade na tela...
                 grids.forEach(grid => {
                     const pAlvo = grid.getAttribute('data-pagina');
                     const sAlvo = grid.getAttribute('data-secao');
 
-                    // 3. Filtra: produto.pagina == html.pagina E produto.secao == html.secao
                     const filtrados = todosProdutos.filter(p => p.pagina === pAlvo && p.secao === sAlvo);
 
                     grid.innerHTML = '';
+                    
+                    const container = grid.parentElement;
+                    const btnPrev = container.querySelector('.arrow-prev');
+                    const btnNext = container.querySelector('.arrow-next');
+
                     if (filtrados.length === 0) {
                         grid.innerHTML = '<p style="color:#ccc; padding:1rem;">Sem produtos aqui.</p>';
-                    }
+                        if(btnPrev) btnPrev.style.display = 'none';
+                        if(btnNext) btnNext.style.display = 'none';
+                    } else {
+                        if(btnPrev) btnPrev.style.display = 'flex';
+                        if(btnNext) btnNext.style.display = 'flex';
 
-                    // 4. Cria os cards
-                    filtrados.forEach(prod => {
-                        const card = `
-                            <div class="product-card">
-                                <a href="/produto.html?id=${prod.id}"> 
-                                    <img src="${prod.imagemUrl}" alt="${prod.nome}">
-                                </a>
-                                <div class="product-card-info">
-                                    <h3>${prod.nome}</h3>
-                                    <div class="product-card-rating">${gerarEstrelas(prod.avaliacao)}</div>
-                                    <div class="product-card-price">${formatarPreco(prod.preco)}</div>
-                                </div>
-                            </div>`;
-                        grid.insertAdjacentHTML('beforeend', card);
-                    });
+                        if (filtrados.length <= 4) {
+                            if(btnPrev) btnPrev.style.display = 'none';
+                            if(btnNext) btnNext.style.display = 'none';
+                        }
+
+                        filtrados.forEach(prod => {
+                            const card = `
+                                <div class="product-card">
+                                    <a href="/produto.html?id=${prod.id}"> 
+                                        <img src="${prod.imagemUrl}" alt="${prod.nome}">
+                                    </a>
+                                    <div class="product-card-info">
+                                        <h3>${prod.nome}</h3>
+                                        <div class="product-card-rating">${gerarEstrelas(prod.avaliacao)}</div>
+                                        <div class="product-card-price">${formatarPreco(prod.preco)}</div>
+                                    </div>
+                                </div>`;
+                            grid.insertAdjacentHTML('beforeend', card);
+                        });
+                    }
                 });
             })
             .catch(err => console.error("Erro ao carregar produtos:", err));
     }
 
-    // --- Lógica das Setas ---
     document.querySelectorAll('.slider-arrow').forEach(btn => {
         btn.addEventListener('click', () => {
             const container = btn.parentElement.querySelector('.product-grid');
@@ -269,16 +365,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (btn.classList.contains('arrow-next')) container.scrollBy({ left: scroll, behavior: 'smooth' });
             else container.scrollBy({ left: -scroll, behavior: 'smooth' });
         });
-    });7
+    });
 
-    // --- CARREGAR PRODUTO ESPECÍFICO ---
     const layoutProduto = document.querySelector('.product-detail-layout');
     if (layoutProduto) {
         carregarProdutoEspecifico(layoutProduto);
     }
 
-    // --- MÁSCARA DE CEP ---
-    const inputCEP = document.querySelector('.frete-input input');
+    // --- MÁSCARA CEP ---
+    // MUDANÇA: Agora pegamos pelo ID 'cep-input' para garantir que é o certo
+    const inputCEP = document.getElementById('cep-input');
     if (inputCEP) {
         inputCEP.addEventListener('input', function(e) {
             let valor = e.target.value.replace(/\D/g, "");
@@ -289,14 +385,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     // =========================================================================
-    // 2. LÓGICA DO CARRINHO
+    // 2. LÓGICA DO CARRINHO E CHECKOUT
     // =========================================================================
 
     const listaCarrinho = document.querySelector('.cart-list');
     if (listaCarrinho) {
-        
         atualizarCarrinhoNaTela();
 
         listaCarrinho.addEventListener('click', function(e) {
@@ -318,11 +412,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-}); // <-- FIM DO DOMContentLoaded
+    // >>>> NOVA VALIDAÇÃO DE FRETE OBRIGATÓRIO <<<<
+    const btnCheckout = document.getElementById('btn-checkout');
+    if (btnCheckout) {
+        btnCheckout.addEventListener('click', function(e) {
+            
+            // 1. Valida se o número do CEP foi digitado corretamente
+            const cepInput = document.getElementById('cep-input');
+            // Remove traço e tudo que não for número para contar os dígitos
+            const cepValor = cepInput ? cepInput.value.replace(/\D/g, '') : '';
 
+            if (cepValor.length !== 8) {
+                e.preventDefault(); // Bloqueia o clique
+                alert("Por favor, digite um CEP válido (8 números) antes de finalizar.");
+                if(cepInput) cepInput.focus(); // Leva o cursor para o campo
+                return; // Para a execução aqui
+            }
+
+            // 2. Valida se uma opção de frete (bolinha) foi selecionada
+            const freteSelecionado = document.querySelector('input[name="frete"]:checked');
+            
+            if (!freteSelecionado) {
+                e.preventDefault(); // Bloqueia o clique
+                alert("Por favor, selecione uma opção de frete (PAC, SEDEX ou Grátis) para continuar.");
+                // Rola a tela até a calculadora de frete
+                document.querySelector('.frete-calculator').scrollIntoView({behavior: 'smooth'});
+            }
+        });
+    }
+
+}); 
 
 // ===================================================================================
-// FUNÇÕES AUXILIARES E LÓGICA DO CARRINHO
+// FUNÇÕES AUXILIARES
 // ===================================================================================
 
 function getChaveCarrinho() {
@@ -330,10 +452,24 @@ function getChaveCarrinho() {
     return email ? `carrinho_${email}` : 'carrinho_visitante';
 }
 
-/**
- * (NOVA FUNÇÃO) Verifica se os itens do carrinho ainda existem no banco.
- * Se o banco foi apagado, esta função vai limpar os itens inválidos.
- */
+function atualizarPrecosCheckout() {
+    const chave = getChaveCarrinho();
+    const carrinho = JSON.parse(localStorage.getItem(chave)) || [];
+    
+    let total = 0;
+    carrinho.forEach(item => {
+        total += item.preco * item.quantidade;
+    });
+
+    const totalFormatado = formatarPreco(total);
+
+    const subtotais = document.querySelectorAll('.checkout-subtotal');
+    subtotais.forEach(el => el.textContent = totalFormatado);
+
+    const totais = document.querySelectorAll('.checkout-total');
+    totais.forEach(el => el.textContent = totalFormatado);
+}
+
 async function validarItensDoCarrinho() {
     const chave = getChaveCarrinho();
     let carrinho = JSON.parse(localStorage.getItem(chave)) || [];
@@ -344,26 +480,25 @@ async function validarItensDoCarrinho() {
     let houveAlteracao = false;
 
     for (const item of carrinho) {
+        if (item.id.toString().startsWith('custom')) {
+            carrinhoValidado.push(item);
+            continue;
+        }
+
         try {
-            // Tenta buscar o produto no banco para ver se ele existe
             const response = await fetch(`/api/produtos/${item.id}`);
             if (response.ok) {
-                // Se o servidor respondeu OK (200), o produto existe
                 carrinhoValidado.push(item);
             } else {
-                // Se respondeu 404, o produto não existe mais (banco foi apagado)
                 houveAlteracao = true;
-                console.log(`Produto ID ${item.id} removido pois não existe no banco.`);
             }
         } catch (error) {
-            // Se houve erro de rede, mantemos o item por segurança
             carrinhoValidado.push(item);
         }
     }
 
     if (houveAlteracao) {
         localStorage.setItem(chave, JSON.stringify(carrinhoValidado));
-        // Se estiver na tela do carrinho, atualiza visualmente
         if (document.querySelector('.cart-list')) {
             atualizarCarrinhoNaTela();
         }
@@ -394,11 +529,16 @@ function atualizarCarrinhoNaTela() {
         const subtotalItem = item.preco * item.quantidade;
         total += subtotalItem;
 
+        const descricaoHtml = item.descricao ? `<p style="font-size:0.8rem; color:#666; margin-top:0.2rem;">${item.descricao}</p>` : '';
+
         const htmlItem = `
             <div class="cart-item">
                 <div class="cart-item-product">
                     <img src="${item.imagemUrl}" alt="${item.nome}">
-                    <h3>${item.nome}</h3>
+                    <div>
+                        <h3>${item.nome}</h3>
+                        ${descricaoHtml}
+                    </div>
                 </div>
                 <div class="quantity-selector">
                     <button class="btn-qtd" data-action="decrease" data-index="${index}">-</button>
@@ -439,43 +579,6 @@ function removerItemCarrinho(index) {
     atualizarCarrinhoNaTela();
 }
 
-async function carregarProdutos(gridElement, secaoIndex) {
-    try {
-        const response = await fetch('/api/produtos');
-        if (!response.ok) throw new Error('Erro');
-        const produtos = await response.json();
-
-        gridElement.innerHTML = '';
-        if (produtos.length === 0) {
-            gridElement.innerHTML = '<p style="color: white;">Nenhum produto cadastrado.</p>';
-            return;
-        }
-
-        const produtosPorSecao = 4;
-        const inicio = secaoIndex * produtosPorSecao;
-        const fim = inicio + produtosPorSecao;
-        const produtosDaSecao = produtos.slice(inicio, fim);
-
-        produtosDaSecao.forEach(produto => {
-            const cardHTML = `
-                <div class="product-card">
-                    <a href="/produto.html?id=${produto.id}"> 
-                        <img src="${produto.imagemUrl}" alt="${produto.nome}">
-                    </a>
-                    <div class="product-card-info">
-                        <h3>${produto.nome}</h3>
-                        <div class="product-card-rating">${gerarEstrelas(produto.avaliacao)}</div>
-                        <div class="product-card-price">${formatarPreco(produto.preco)}</div>
-                    </div>
-                </div>
-            `;
-            gridElement.insertAdjacentHTML('beforeend', cardHTML);
-        });
-    } catch (error) {
-        console.error("Erro:", error);
-    }
-}
-
 async function carregarProdutoEspecifico(layout) {
     try {
         const params = new URLSearchParams(window.location.search);
@@ -495,9 +598,7 @@ async function carregarProdutoEspecifico(layout) {
         document.title = produto.nome + " - Jardim Encantado";
 
         const btnAdicionar = layout.querySelector('.btn-primary');
-        const linkBotao = btnAdicionar.parentElement;
-        if (linkBotao.tagName === 'A') linkBotao.replaceWith(btnAdicionar);
-
+        
         const novoBtn = btnAdicionar.cloneNode(true);
         if(btnAdicionar.parentNode) btnAdicionar.parentNode.replaceChild(novoBtn, btnAdicionar);
 

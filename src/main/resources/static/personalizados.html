@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personalizados - Jardim Encantado</title>
     <link rel="stylesheet" href="/style.css">
-    <script src="/script.js"></script>
+    <script src="/script.js" defer></script>
 </head>
 <body>
 
@@ -35,220 +35,131 @@
             </div>
         </div>
     </header>
+
     <main class="container">
-        <form class="custom-form-page">
-            <h1>Bem-vindo a aba de personalizados!</h1>
+        <form id="form-personalizados" class="custom-form-page">
+            <h1>Monte seu Buquê Exclusivo!</h1>
             <p class="form-intro">
-                Nessa aba, você verá o seu desejo e nós atendemos seu pedido! Basta preencher o formulário abaixo com suas preferências. Escolha as flores, cores e o tamanho do seu buquê, além de opções de presentes como caixas, ursos e chocolates!
+                Escolha cada detalhe e nós montaremos com todo carinho. O preço é calculado automaticamente conforme suas escolhas.
             </p>
 
             <div class="form-sections">
                 <div class="form-group">
-                    <h3>Escolha as flores:</h3>
+                    <h3>1. Escolha as flores (R$ 15,00 cada tipo):</h3>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="flor-rosa" name="flor" value="rosa">
-                        <label for="flor-rosa">Rosa</label>
+                        <input type="checkbox" id="flor-rosa" name="flor" value="Rosas" data-preco="15">
+                        <label for="flor-rosa">Rosas</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="flor-tulipa" name="flor" value="tulipa">
-                        <label for="flor-tulipa">Tulipa</label>
+                        <input type="checkbox" id="flor-tulipa" name="flor" value="Tulipas" data-preco="15">
+                        <label for="flor-tulipa">Tulipas</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="flor-orquidea" name="flor" value="orquidea">
-                        <label for="flor-orquidea">Orquídea</label>
+                        <input type="checkbox" id="flor-orquidea" name="flor" value="Orquídeas" data-preco="15">
+                        <label for="flor-orquidea">Orquídeas</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="flor-girassol" name="flor" value="girassol">
-                        <label for="flor-girassol">Girassol</label>
+                        <input type="checkbox" id="flor-girassol" name="flor" value="Girassóis" data-preco="15">
+                        <label for="flor-girassol">Girassóis</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="flor-jasmim" name="flor" value="jasmim">
-                        <label for="flor-jasmim">Jasmim</label>
+                        <input type="checkbox" id="flor-jasmim" name="flor" value="Jasmins" data-preco="15">
+                        <label for="flor-jasmim">Jasmins</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <h3>Escolha as cores das flores:</h3>
+                    <h3>2. Cores predominantes (Grátis):</h3>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="cor-rosa" name="cor" value="rosa">
+                        <input type="checkbox" id="cor-rosa" name="cor" value="Rosa" data-preco="0">
                         <label for="cor-rosa">Rosa</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="cor-branca" name="cor" value="branca">
+                        <input type="checkbox" id="cor-branca" name="cor" value="Branca" data-preco="0">
                         <label for="cor-branca">Branca</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="cor-amarela" name="cor" value="amarela">
+                        <input type="checkbox" id="cor-amarela" name="cor" value="Amarela" data-preco="0">
                         <label for="cor-amarela">Amarela</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="cor-laranja" name="cor" value="laranja">
+                        <input type="checkbox" id="cor-laranja" name="cor" value="Laranja" data-preco="0">
                         <label for="cor-laranja">Laranja</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="cor-lilas" name="cor" value="lilas">
+                        <input type="checkbox" id="cor-lilas" name="cor" value="Lilás" data-preco="0">
                         <label for="cor-lilas">Lilás</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="cor-roxa" name="cor" value="roxa">
+                        <input type="checkbox" id="cor-roxa" name="cor" value="Roxa" data-preco="0">
                         <label for="cor-roxa">Roxa</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <h3>Escolha o tamanho do buquê:</h3>
+                    <h3>3. Tamanho do buquê (Obrigatório):</h3>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="tam-pequeno" name="tamanho" value="pequeno">
-                        <label for="tam-pequeno">Pequeno</label>
+                        <input type="radio" id="tam-pequeno" name="tamanho" value="Pequeno" data-preco="50" required>
+                        <label for="tam-pequeno">Pequeno (R$ 50,00)</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="tam-medio" name="tamanho" value="medio">
-                        <label for="tam-medio">Médio</label>
+                        <input type="radio" id="tam-medio" name="tamanho" value="Médio" data-preco="80">
+                        <label for="tam-medio">Médio (R$ 80,00)</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="tam-grande" name="tamanho" value="grande">
-                        <label for="tam-grande">Grande</label>
+                        <input type="radio" id="tam-grande" name="tamanho" value="Grande" data-preco="120">
+                        <label for="tam-grande">Grande (R$ 120,00)</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <h3>Escolha um presente para acompanhar:</h3>
+                    <h3>4. Presentes adicionais:</h3>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="pres-caixa" name="presente" value="caixa">
-                        <label for="pres-caixa">Caixa para buquê</label>
+                        <input type="checkbox" id="pres-caixa" name="presente" value="Caixa Decorada" data-preco="25">
+                        <label for="pres-caixa">Caixa Decorada (+R$ 25,00)</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="pres-urso" name="presente" value="urso">
-                        <label for="pres-urso">Urso de pelúcia</label>
+                        <input type="checkbox" id="pres-urso" name="presente" value="Urso de Pelúcia" data-preco="40">
+                        <label for="pres-urso">Urso de Pelúcia (+R$ 40,00)</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="pres-choco" name="presente" value="chocolate">
-                        <label for="pres-choco">Chocolate</label>
+                        <input type="checkbox" id="pres-choco" name="presente" value="Chocolates" data-preco="30">
+                        <label for="pres-choco">Caixa de Chocolates (+R$ 30,00)</label>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-full-width">Adicionar ao carrinho</button>
+            <div style="background-color: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; text-align: center; margin-bottom: 1.5rem;">
+                <h2 style="margin:0;">Total Estimado: <span id="total-display">R$ 0,00</span></h2>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full-width">Adicionar Personalizado ao Carrinho</button>
         </form>
     </main>
 
     <div id="auth-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="material-symbols-outlined modal-close"><img src="/images/fechar.png"></span>
-
-        <div id="login-view" class="modal-view active">
-            <h3 class="auth-header">
-                <span class="material-symbols-outlined"></span>
-                Entre na sua conta
-            </h3>
-            <button class="social-btn">
-                <img src="/images/facebook.png" alt="Facebook">
-                Entrar com Facebook
-            </button>
-            <button class="social-btn">
-                <img src="/images/google.png" alt="Google">
-                Entrar com Google
-            </button>
-
-            <div class="auth-divider">ou se preferir</div>
-
-            <form>
-                <div class="input-group">
-                    <input type="email" placeholder="E-mail">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Senha">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full-width">Entrar</button>
-            </form>
-            
-            <p class="auth-link">
-                <a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a>
-            </p>
-            <p class="auth-link" style="margin-top: 0.5rem;">
-                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
-            </p>
+        <div class="modal-content">
+             <span class="material-symbols-outlined modal-close"><img src="/images/fechar.png"></span>
+             <div id="login-view" class="modal-view active">
+                 <h3 class="auth-header">Entre na sua conta</h3>
+                 <form><div class="input-group"><input type="email" placeholder="E-mail"><span class="material-symbols-outlined input-icon"></span></div><div class="input-group"><input type="password" placeholder="Senha"><span class="material-symbols-outlined input-icon"></span></div><button type="submit" class="btn btn-primary btn-full-width">Entrar</button></form>
+                 <p class="auth-link"><a data-view="reset-view" style="cursor: pointer;">Esqueceu a senha?</a></p>
+                 <p class="auth-link" style="margin-top: 0.5rem;">Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a></p>
+             </div>
+             <div id="register-view" class="modal-view">
+                <h3 class="auth-header">Crie sua conta</h3>
+                <form><div class="input-group"><input type="email" placeholder="E-mail" required></div><div class="input-group"><input type="text" placeholder="Nome Completo" required></div><div class="input-group"><input type="tel" placeholder="Telefone/Whatsapp"></div><div class="input-group"><input type="password" placeholder="Senha" required></div><button type="submit" class="btn btn-primary btn-full-width">Criar conta</button></form>
+                <p class="auth-link">Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a></p>
+            </div>
+             <div id="reset-view" class="modal-view">
+                <h3 class="auth-header">Redefinir senha</h3>
+                <form><div class="input-group"><input type="email" placeholder="E-mail"></div><button type="submit" class="btn btn-primary btn-full-width">Enviar</button></form>
+                <p class="auth-link">Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a></p>
+            </div>
         </div>
-
-        <div id="register-view" class="modal-view">
-            <h3 class="auth-header">
-                <span class="material-symbols-outlined"></span>
-                Crie sua conta
-            </h3>
-            <button class="social-btn">
-                <img src="/images/facebook.png" alt="Facebook">
-                Criar com Facebook
-            </button>
-            <button class="social-btn">
-                <img src="/images/google.png" alt="Google">
-                Criar com Google
-            </button>
-
-            <div class="auth-divider">ou se preferir</div>
-
-            <form>
-                <div class="input-group">
-                    <input type="email" placeholder="E-mail">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="text" placeholder="Nome Completo">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="tel" placeholder="Telefone/Whatsapp">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Senha">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                
-                <div class="auth-checkbox">
-                    <input type="checkbox" id="check-email">
-                    <label for="check-email">Desejo receber ofertas por e-mail</label>
-                </div>
-                <div class="auth-checkbox">
-                    <input type="checkbox" id="check-whatsapp">
-                    <label for="check-whatsapp">Desejo receber atualizações por whatsapp</label>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-full-width">Criar conta</button>
-            </form>
-            
-            <p class="auth-link">
-                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
-            </p>
-        </div>
-
-        <div id="reset-view" class="modal-view">
-            <h3 class="auth-header" style="justify-content: center;">
-                Redefinir senha
-            </h3>
-
-            <p class="reset-intro">Enviaremos um e-mail para você com um senha provisória.</p>
-
-            <form>
-                <div class="input-group">
-                    <input type="email" placeholder="E-mail">
-                    <span class="material-symbols-outlined input-icon"></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full-width">Enviar</button>
-            </form>
-            
-            <p class="auth-link">
-                Já tem uma conta? <a data-view="login-view" style="cursor: pointer;">Faça seu login</a>
-            </p>
-            <p class="auth-link" style="margin-top: 0.5rem;">
-                Novo por aqui? <a data-view="register-view" style="cursor: pointer;">Crie sua conta.</a>
-            </p>
-        </div>
-
     </div>
-</div>
-<footer class="footer container">
+
+    <footer class="footer container">
         <div class="footer-col">
             <h3>Quem somos</h3>
             <ul>
